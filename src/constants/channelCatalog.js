@@ -1,0 +1,12 @@
+/** Mirrors backend channel-status.js */
+export const CHANNEL_STATUS = {
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE',
+  SUSPENDED: 'SUSPENDED',
+};
+
+export const CHANNEL_STATUS_OPTIONS = [
+  CHANNEL_STATUS.ACTIVE,
+  CHANNEL_STATUS.INACTIVE,
+  CHANNEL_STATUS.SUSPENDED,
+];
