@@ -10,7 +10,7 @@ export const navigationConfig = [
   { id: 'overview', label: 'Overview', path: '/', section: 'Main', futureModule: true },
   { id: 'products', label: 'Products', path: '/products', section: 'Catalog', futureModule: false },
   { id: 'inventory', label: 'Inventory', path: '/inventory', section: 'Catalog', futureModule: false },
-  { id: 'pricing', label: 'Pricing', path: '/pricing', section: 'Catalog', futureModule: true },
+  { id: 'pricing', label: 'Pricing', path: '/pricing', section: 'Catalog', futureModule: false },
   { id: 'orders', label: 'Orders', path: '/orders', section: 'Operations', futureModule: true },
   { id: 'shipments', label: 'Shipments', path: '/shipments', section: 'Operations', futureModule: true },
   { id: 'returns', label: 'Returns', path: '/returns', section: 'Operations', futureModule: true },

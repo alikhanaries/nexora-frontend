@@ -90,6 +90,19 @@ Known backend gaps are documented in [docs/phase-1-channel-marketplace-frontend-
 
 See [docs/styling.md](./docs/styling.md) for conventions.
 
+## Pricing module (Phase 6)
+
+| Route | Purpose |
+| ----- | ------- |
+| `/pricing` | Cursor-paginated list (`productId`, `channelId`, `currency`, `status`, `cursor`) |
+| `/pricing/new` | Create price |
+| `/pricing/:priceId` | Detail |
+| `/pricing/:priceId/edit` | Update price |
+
+**Money:** API uses integer **`amountMinor`** + **`currency`** (3-letter). UI forms accept decimal major units for entry; submissions send integer minor units. Display uses `formatMoneyMinor` / `Intl.NumberFormat`.
+
+**Deactivate:** `PATCH /prices/:id` with `{ status: "INACTIVE" }` (no separate deactivate route).
+
 ## Inventory module (Phase 5)
 
 | Route | Purpose |
