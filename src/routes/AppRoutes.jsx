@@ -8,6 +8,7 @@ import { GuestRoute } from './GuestRoute.jsx';
 import { InventoryRoutes } from './InventoryRoutes.jsx';
 import { OffersRoutes } from './OffersRoutes.jsx';
 import { OrdersRoutes } from './OrdersRoutes.jsx';
+import { ReturnsRoutes } from './ReturnsRoutes.jsx';
 import { ShipmentsRoutes } from './ShipmentsRoutes.jsx';
 import { PricingRoutes } from './PricingRoutes.jsx';
 import { ProductsRoutes } from './ProductsRoutes.jsx';
@@ -30,8 +31,9 @@ export function AppRoutes() {
           <Route path="offers/*" element={<OffersRoutes />} />
           <Route path="orders/*" element={<OrdersRoutes />} />
           <Route path="shipments/*" element={<ShipmentsRoutes />} />
+          <Route path="returns/*" element={<ReturnsRoutes />} />
           {navigationConfig
-            .filter((item) => !['products', 'inventory', 'pricing', 'offers', 'orders', 'shipments'].includes(item.id))
+            .filter((item) => !['products', 'inventory', 'pricing', 'offers', 'orders', 'shipments', 'returns'].includes(item.id))
             .map((item) =>
               item.path === '/' ? (
                 <Route key={item.id} index element={<ModulePlaceholderPage />} />
