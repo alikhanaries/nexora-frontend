@@ -1,0 +1,29 @@
+/** Mirrors backend product-status.js */
+export const PRODUCT_STATUS = {
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE',
+  ARCHIVED: 'ARCHIVED',
+};
+
+/** @type {PRODUCT_STATUS[keyof PRODUCT_STATUS][]} */
+export const PRODUCT_STATUS_OPTIONS = [
+  PRODUCT_STATUS.ACTIVE,
+  PRODUCT_STATUS.INACTIVE,
+  PRODUCT_STATUS.ARCHIVED,
+];
+
+/** Mirrors backend product-type.js */
+export const PRODUCT_TYPE = {
+  STANDARD: 'STANDARD',
+  BUNDLE: 'BUNDLE',
+  VARIANT: 'VARIANT',
+};
+
+/** @type {PRODUCT_TYPE[keyof PRODUCT_TYPE][]} */
+export const PRODUCT_TYPE_OPTIONS = [
+  PRODUCT_TYPE.STANDARD,
+  PRODUCT_TYPE.BUNDLE,
+  PRODUCT_TYPE.VARIANT,
+];
+
+export const DEFAULT_PRODUCT_LIST_LIMIT = 25;
