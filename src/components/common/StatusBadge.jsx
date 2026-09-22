@@ -1,16 +1,17 @@
 import Chip from '@mui/material/Chip';
 import { getProductStatusPresentation } from '../../constants/productStatusPresentation.js';
+import { getStockLocationStatusPresentation } from '../../constants/stockLocationStatusPresentation.js';
 
 /**
- * Product status chip — extend for other domains in later phases.
- * @param {{ status: string, domain?: 'product' }} props
+ * @param {{ status: string, domain?: 'product' | 'stockLocation' }} props
  */
 export function StatusBadge({ status, domain = 'product' }) {
-  if (domain !== 'product') {
-    return <Chip size="small" label={status} variant="outlined" />;
-  }
-
-  const presentation = getProductStatusPresentation(status);
+  const presentation =
+    domain === 'stockLocation'
+      ? getStockLocationStatusPresentation(status)
+      : domain === 'product'
+        ? getProductStatusPresentation(status)
+        : { label: status, muiColor: 'default' };
   return (
     <Chip
       size="small"

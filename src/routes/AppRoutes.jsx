@@ -5,6 +5,7 @@ import { AuthLayout } from '../layouts/AuthLayout.jsx';
 import { LoginPage } from '../pages/auth/LoginPage.jsx';
 import { ModulePlaceholderPage } from '../pages/ModulePlaceholderPage.jsx';
 import { GuestRoute } from './GuestRoute.jsx';
+import { InventoryRoutes } from './InventoryRoutes.jsx';
 import { ProductsRoutes } from './ProductsRoutes.jsx';
 import { ProtectedRoute } from './ProtectedRoute.jsx';
 
@@ -20,8 +21,9 @@ export function AppRoutes() {
       <Route element={<ProtectedRoute />}>
         <Route element={<AppLayout />}>
           <Route path="products/*" element={<ProductsRoutes />} />
+          <Route path="inventory/*" element={<InventoryRoutes />} />
           {navigationConfig
-            .filter((item) => item.id !== 'products')
+            .filter((item) => item.id !== 'products' && item.id !== 'inventory')
             .map((item) =>
               item.path === '/' ? (
                 <Route key={item.id} index element={<ModulePlaceholderPage />} />

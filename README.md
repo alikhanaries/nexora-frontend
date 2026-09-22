@@ -90,6 +90,18 @@ Known backend gaps are documented in [docs/phase-1-channel-marketplace-frontend-
 
 See [docs/styling.md](./docs/styling.md) for conventions.
 
+## Inventory module (Phase 5)
+
+| Route | Purpose |
+| ----- | ------- |
+| `/inventory` | Stock locations list, balances table, mutations |
+
+**Quantity semantics (from API):** each balance row exposes `onHand`, `reserved`, and `available` as separate integers — display as returned; do not recompute.
+
+**Filters:** optional `stockLocationId` query param on list API (URL: `?stockLocationId=`). No SKU/text search; no cursor pagination on balances.
+
+**Operations:** adjust (delta), receive (quantity), reserve/release (with reference type/id). Optional `idempotencyKey` in request body when supported.
+
 ## Products module (Phase 4)
 
 Routes:
