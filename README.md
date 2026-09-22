@@ -90,6 +90,21 @@ Known backend gaps are documented in [docs/phase-1-channel-marketplace-frontend-
 
 See [docs/styling.md](./docs/styling.md) for conventions.
 
+## Products module (Phase 4)
+
+Routes:
+
+| Route | Purpose |
+| ----- | ------- |
+| `/products` | Cursor-paginated list (`status`, `cursor` query params) |
+| `/products/new` | Create product |
+| `/products/:productId` | Product detail + read-only localized content |
+| `/products/:productId/edit` | Update external reference and product type |
+
+API: `/api/v1/products` (list, create, get, patch, deactivate, archive, content list).
+
+**Backend limitations:** no list text/SKU search (GAP-6); no re-activate endpoint; localized content upsert not in UI yet (`PUT .../content/:locale`).
+
 ## Authentication (Phase 3)
 
 - Sign in at `/login` with tenant slug, email, and password (`POST /auth/login`).

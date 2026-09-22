@@ -8,7 +8,7 @@
 /** @type {NavItem[]} */
 export const navigationConfig = [
   { id: 'overview', label: 'Overview', path: '/', section: 'Main', futureModule: true },
-  { id: 'products', label: 'Products', path: '/products', section: 'Catalog', futureModule: true },
+  { id: 'products', label: 'Products', path: '/products', section: 'Catalog', futureModule: false },
   { id: 'inventory', label: 'Inventory', path: '/inventory', section: 'Catalog', futureModule: true },
   { id: 'pricing', label: 'Pricing', path: '/pricing', section: 'Catalog', futureModule: true },
   { id: 'orders', label: 'Orders', path: '/orders', section: 'Operations', futureModule: true },
