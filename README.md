@@ -90,6 +90,20 @@ Known backend gaps are documented in [docs/phase-1-channel-marketplace-frontend-
 
 See [docs/styling.md](./docs/styling.md) for conventions.
 
+## Shipments module (Phase 9)
+
+| Route | Purpose |
+| ----- | ------- |
+| `/shipments` | Cursor list (`status`, `orderId`, `trackingNumber`, `cursor`) |
+| `/shipments/:shipmentId` | Detail + ship / deliver / cancel actions |
+| `/orders/:orderId/shipments/new` | Create shipment for an order |
+
+**API:** List/detail use `GET /shipments` and `GET /shipments/:id`. Create uses `POST /orders/:orderId/shipments` with **`Idempotency-Key`**. Lifecycle: `POST /shipments/:id/ship`, `/deliver`, `/cancel`.
+
+**No monetary fields** on shipment resources. Order detail includes a compact shipments panel.
+
+**Limitations:** No nested `GET /orders/:id/shipments` — filter list by `orderId`. No tracking URL/AWB/weight fields on API. No shipment update (PATCH) endpoint.
+
 ## Orders module (Phase 8)
 
 | Route | Purpose |
