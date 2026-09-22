@@ -6,9 +6,10 @@ import { getShipmentStatusPresentation } from '../../constants/shipmentStatusPre
 import { getPriceStatusPresentation } from '../../constants/priceStatusPresentation.js';
 import { getProductStatusPresentation } from '../../constants/productStatusPresentation.js';
 import { getStockLocationStatusPresentation } from '../../constants/stockLocationStatusPresentation.js';
+import { getChannelStatusPresentation } from '../../constants/channelStatusPresentation.js';
 
 /**
- * @param {{ status: string, domain?: 'product' | 'stockLocation' | 'pricing' | 'offer' | 'listing' | 'order' | 'shipment' }} props
+ * @param {{ status: string, domain?: 'product' | 'stockLocation' | 'pricing' | 'offer' | 'listing' | 'order' | 'shipment' | 'channel' }} props
  */
 export function StatusBadge({ status, domain = 'product' }) {
   const presentation =
@@ -21,12 +22,14 @@ export function StatusBadge({ status, domain = 'product' }) {
           : domain === 'order'
             ? getOrderStatusPresentation(status)
             : domain === 'offer'
-            ? getOfferStatusPresentation(status)
-            : domain === 'listing'
-              ? getListingStatusPresentation(status)
-              : domain === 'product'
-                ? getProductStatusPresentation(status)
-                : { label: status, muiColor: 'default' };
+              ? getOfferStatusPresentation(status)
+              : domain === 'listing'
+                ? getListingStatusPresentation(status)
+                : domain === 'channel'
+                  ? getChannelStatusPresentation(status)
+                  : domain === 'product'
+                    ? getProductStatusPresentation(status)
+                    : { label: status, muiColor: 'default' };
   return (
     <Chip
       size="small"
