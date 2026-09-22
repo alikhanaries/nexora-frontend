@@ -6,6 +6,7 @@ import { ErrorBoundary } from '../components/common/ErrorBoundary.jsx';
 import { NotificationProvider } from '../components/common/NotificationProvider.jsx';
 import { createQueryClient } from '../config/queryClient.js';
 import { appTheme } from '../theme/index.js';
+import { AuthProvider } from './AuthProvider.jsx';
 
 const queryClient = createQueryClient();
 
@@ -16,7 +17,9 @@ export function AppProviders({ children }) {
         <ThemeProvider theme={appTheme}>
           <CssBaseline />
           <NotificationProvider>
-            <BrowserRouter>{children}</BrowserRouter>
+            <BrowserRouter>
+              <AuthProvider>{children}</AuthProvider>
+            </BrowserRouter>
           </NotificationProvider>
         </ThemeProvider>
       </QueryClientProvider>

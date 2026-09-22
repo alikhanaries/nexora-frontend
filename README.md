@@ -90,6 +90,15 @@ Known backend gaps are documented in [docs/phase-1-channel-marketplace-frontend-
 
 See [docs/styling.md](./docs/styling.md) for conventions.
 
+## Authentication (Phase 3)
+
+- Sign in at `/login` with tenant slug, email, and password (`POST /auth/login`).
+- Session tokens are stored in **sessionStorage**; bootstrap uses `GET /auth/me`.
+- Access token refresh uses single-flight `POST /auth/refresh` on `401` responses.
+- Navigation is **not** permission-filtered yet — `GET /auth/me` does not expose permissions (GAP-1).
+
 ## Git workflow
 
 Feature work branches from **`abubakar`**. Open pull requests into **`abubakar`**.
+
+**Note:** If an earlier phase PR is still open, merge it before later phases or expect stacked commits until `abubakar` is up to date.

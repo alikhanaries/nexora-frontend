@@ -1,6 +1,7 @@
 import { apiRequest } from '../api/apiClient.js';
 import { notifyAuthSessionChanged } from './authEvents.js';
 import { clearSession, persistSession } from './authSession.js';
+import { refreshAccessTokenSingleFlight } from './tokenRefresh.js';
 
 /**
  * @typedef {{ tenantSlug: string, email: string, password: string }} LoginInput
@@ -31,14 +32,8 @@ export const authService = {
    * @returns {Promise<TokenPayload>}
    */
   async refresh(refreshToken) {
-    const data = await apiRequest({
-      method: 'POST',
-      url: '/auth/refresh',
-      data: { refreshToken },
-    });
-    persistSession(data);
-    notifyAuthSessionChanged();
-    return data;
+    void refreshToken;
+    return refreshAccessTokenSingleFlight();
   },
 
   /**

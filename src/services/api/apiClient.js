@@ -1,9 +1,23 @@
 import axios from 'axios';
 import { getEnv } from '../../config/env.js';
 import { getAccessToken } from '../auth/authSession.js';
+import { triggerSessionExpired } from '../auth/sessionExpired.js';
+import { isAuthRefreshUrl, refreshAccessTokenSingleFlight } from '../auth/tokenRefresh.js';
 import { normalizeApiError } from './apiError.js';
 
 let clientInstance = null;
+
+function isPublicAuthRequest(url, method) {
+  if (!url) return false;
+  const path = url.replace(getEnv().apiBaseUrl || '', '');
+  if (path.includes('/auth/login') || path.includes('/auth/logout')) {
+    return true;
+  }
+  if (path.includes('/auth/refresh') && method?.toLowerCase() === 'post') {
+    return true;
+  }
+  return false;
+}
 
 /**
  * @returns {import('axios').AxiosInstance}
@@ -25,9 +39,11 @@ export function getApiClient() {
   });
 
   clientInstance.interceptors.request.use((config) => {
-    const token = getAccessToken();
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+    if (!config.headers.Authorization) {
+      const token = getAccessToken();
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
     }
     return config;
   });
@@ -50,7 +66,31 @@ export function getApiClient() {
       }
       return data;
     },
-    (axiosError) => Promise.reject(normalizeApiError(axiosError, axiosError)),
+    async (axiosError) => {
+      const normalized = normalizeApiError(axiosError, axiosError);
+      const originalRequest = axiosError.config;
+
+      if (
+        normalized.httpStatus === 401 &&
+        originalRequest &&
+        !originalRequest._authRetry &&
+        !originalRequest.skipAuthRefresh &&
+        !isPublicAuthRequest(originalRequest.url, originalRequest.method) &&
+        !isAuthRefreshUrl(originalRequest.url)
+      ) {
+        originalRequest._authRetry = true;
+        try {
+          await refreshAccessTokenSingleFlight();
+          originalRequest.headers.Authorization = `Bearer ${getAccessToken()}`;
+          return clientInstance.request(originalRequest);
+        } catch {
+          triggerSessionExpired();
+          return Promise.reject(normalized);
+        }
+      }
+
+      return Promise.reject(normalized);
+    },
   );
 
   return clientInstance;

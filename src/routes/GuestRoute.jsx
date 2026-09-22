@@ -1,17 +1,17 @@
-import { Navigate, Outlet, useLocation } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 import { LoadingScreen } from '../components/ui/LoadingScreen.jsx';
 import { useAuth } from '../hooks/useAuth.js';
+import { getSafeRedirectPath } from '../utils/safeRedirect.js';
 
-export function ProtectedRoute() {
+export function GuestRoute() {
   const { isAuthenticated, isLoading } = useAuth();
-  const location = useLocation();
 
   if (isLoading) {
     return <LoadingScreen message="Restoring session…" />;
   }
 
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace state={{ from: location.pathname }} />;
+  if (isAuthenticated) {
+    return <Navigate to={getSafeRedirectPath('/')} replace />;
   }
 
   return <Outlet />;
