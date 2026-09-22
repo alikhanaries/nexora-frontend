@@ -14,6 +14,9 @@ const OrderCreatePage = lazy(() =>
 const ShipmentCreatePage = lazy(() =>
   import('../pages/orders/ShipmentCreatePage.jsx').then((m) => ({ default: m.ShipmentCreatePage })),
 );
+const ReturnCreatePage = lazy(() =>
+  import('../pages/orders/ReturnCreatePage.jsx').then((m) => ({ default: m.ReturnCreatePage })),
+);
 
 export function OrdersRoutes() {
   return (
@@ -31,6 +34,14 @@ export function OrdersRoutes() {
         element={
           <Suspense fallback={<LoadingScreen message="Loading form…" />}>
             <OrderCreatePage />
+          </Suspense>
+        }
+      />
+      <Route
+        path=":orderId/returns/new"
+        element={
+          <Suspense fallback={<LoadingScreen message="Loading form…" />}>
+            <ReturnCreatePage />
           </Suspense>
         }
       />

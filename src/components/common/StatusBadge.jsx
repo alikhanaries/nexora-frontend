@@ -2,6 +2,7 @@ import Chip from '@mui/material/Chip';
 import { getListingStatusPresentation } from '../../constants/listingStatusPresentation.js';
 import { getOfferStatusPresentation } from '../../constants/offerStatusPresentation.js';
 import { getOrderStatusPresentation } from '../../constants/orderStatusPresentation.js';
+import { getReturnStatusPresentation } from '../../constants/returnStatusPresentation.js';
 import { getShipmentStatusPresentation } from '../../constants/shipmentStatusPresentation.js';
 import { getPriceStatusPresentation } from '../../constants/priceStatusPresentation.js';
 import { getProductStatusPresentation } from '../../constants/productStatusPresentation.js';
@@ -9,7 +10,7 @@ import { getStockLocationStatusPresentation } from '../../constants/stockLocatio
 import { getChannelStatusPresentation } from '../../constants/channelStatusPresentation.js';
 
 /**
- * @param {{ status: string, domain?: 'product' | 'stockLocation' | 'pricing' | 'offer' | 'listing' | 'order' | 'shipment' | 'channel' }} props
+ * @param {{ status: string, domain?: 'product' | 'stockLocation' | 'pricing' | 'offer' | 'listing' | 'order' | 'shipment' | 'return' | 'channel' }} props
  */
 export function StatusBadge({ status, domain = 'product' }) {
   const presentation =
@@ -17,9 +18,11 @@ export function StatusBadge({ status, domain = 'product' }) {
       ? getStockLocationStatusPresentation(status)
       : domain === 'pricing'
         ? getPriceStatusPresentation(status)
-        : domain === 'shipment'
-          ? getShipmentStatusPresentation(status)
-          : domain === 'order'
+        : domain === 'return'
+          ? getReturnStatusPresentation(status)
+          : domain === 'shipment'
+            ? getShipmentStatusPresentation(status)
+            : domain === 'order'
             ? getOrderStatusPresentation(status)
             : domain === 'offer'
               ? getOfferStatusPresentation(status)

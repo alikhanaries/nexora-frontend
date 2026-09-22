@@ -25,6 +25,7 @@ import { formatChannelLabel } from '../../utils/channelLabel.js';
 import { confirmAction } from '../../utils/confirmDialog.js';
 import { formatDate } from '../../utils/formatDate.js';
 import { formatMoneyMinor } from '../../utils/money.js';
+import { OrderReturnsPanel } from '../../components/returns/OrderReturnsPanel.jsx';
 import { OrderShipmentsPanel } from '../../components/shipments/OrderShipmentsPanel.jsx';
 
 function formatAddress(address) {
@@ -256,6 +257,7 @@ export function OrderDetailPage() {
       </Paper>
 
       <OrderShipmentsPanel orderId={order.id} />
+      <OrderReturnsPanel orderId={order.id} />
     </>
   );
 }
