@@ -1,10 +1,14 @@
 import Chip from '@mui/material/Chip';
+import { getListingStatusPresentation } from '../../constants/listingStatusPresentation.js';
+import { getOfferStatusPresentation } from '../../constants/offerStatusPresentation.js';
+import { getOrderStatusPresentation } from '../../constants/orderStatusPresentation.js';
+import { getShipmentStatusPresentation } from '../../constants/shipmentStatusPresentation.js';
 import { getPriceStatusPresentation } from '../../constants/priceStatusPresentation.js';
 import { getProductStatusPresentation } from '../../constants/productStatusPresentation.js';
 import { getStockLocationStatusPresentation } from '../../constants/stockLocationStatusPresentation.js';
 
 /**
- * @param {{ status: string, domain?: 'product' | 'stockLocation' | 'pricing' }} props
+ * @param {{ status: string, domain?: 'product' | 'stockLocation' | 'pricing' | 'offer' | 'listing' | 'order' | 'shipment' }} props
  */
 export function StatusBadge({ status, domain = 'product' }) {
   const presentation =
@@ -12,9 +16,17 @@ export function StatusBadge({ status, domain = 'product' }) {
       ? getStockLocationStatusPresentation(status)
       : domain === 'pricing'
         ? getPriceStatusPresentation(status)
-        : domain === 'product'
-          ? getProductStatusPresentation(status)
-          : { label: status, muiColor: 'default' };
+        : domain === 'shipment'
+          ? getShipmentStatusPresentation(status)
+          : domain === 'order'
+            ? getOrderStatusPresentation(status)
+            : domain === 'offer'
+            ? getOfferStatusPresentation(status)
+            : domain === 'listing'
+              ? getListingStatusPresentation(status)
+              : domain === 'product'
+                ? getProductStatusPresentation(status)
+                : { label: status, muiColor: 'default' };
   return (
     <Chip
       size="small"

@@ -90,6 +90,55 @@ Known backend gaps are documented in [docs/phase-1-channel-marketplace-frontend-
 
 See [docs/styling.md](./docs/styling.md) for conventions.
 
+## Shipments module (Phase 9)
+
+| Route | Purpose |
+| ----- | ------- |
+| `/shipments` | Cursor list (`status`, `orderId`, `trackingNumber`, `cursor`) |
+| `/shipments/:shipmentId` | Detail + ship / deliver / cancel actions |
+| `/orders/:orderId/shipments/new` | Create shipment for an order |
+
+**API:** List/detail use `GET /shipments` and `GET /shipments/:id`. Create uses `POST /orders/:orderId/shipments` with **`Idempotency-Key`**. Lifecycle: `POST /shipments/:id/ship`, `/deliver`, `/cancel`.
+
+**No monetary fields** on shipment resources. Order detail includes a compact shipments panel.
+
+**Limitations:** No nested `GET /orders/:id/shipments` — filter list by `orderId`. No tracking URL/AWB/weight fields on API. No shipment update (PATCH) endpoint.
+
+## Orders module (Phase 8)
+
+| Route | Purpose |
+| ----- | ------- |
+| `/orders` | Cursor-paginated list (`status`, `channelId`, `externalOrderReference`, `orderNumber`, `createdAfter`, `createdBefore`, `cursor`) |
+| `/orders/new` | Create order |
+| `/orders/:orderId` | Detail + confirm (when status is `NEW`) |
+
+**Create:** `POST /orders` requires header **`Idempotency-Key`** (UUID). The create page keeps one key per visit for safe retries.
+
+**Money:** Order and line totals use integer **`amountMinor`** fields from the API (`subtotalMinor`, `totalMinor`, `unitPriceMinor`, etc.). Display via `formatMoneyMinor`; optional charge inputs on create convert decimal major units with `parseMajorUnitsToMinor`. Do not recalculate order totals client-side.
+
+**Lifecycle UI:** Only **confirm** is exposed (`POST /orders/:id/confirm`). No cancel/update/delete HTTP routes on the Order API — other statuses are backend/workflow driven.
+
+**Lookups:** Reuses `useChannels` and `useStockLocations` (no Channels admin UI).
+
+## Offers module (Phase 7)
+
+| Route | Purpose |
+| ----- | ------- |
+| `/offers` | Cursor-paginated list (`productId`, `channelId`, `status`, `cursor`) |
+| `/offers/new` | Create offer |
+| `/offers/:offerId` | Detail + lifecycle actions |
+| `/offers/:offerId/edit` | Update references and listing status |
+
+**Lifecycle:** `DRAFT`, `ACTIVE`, `INACTIVE`, `SUSPENDED`. Activate via `POST /offers/:id/activate` (optional `resolvePricing` + `currency`). Suspend/deactivate via `PATCH` with `status`. Inactive offers cannot be updated.
+
+**Listing status:** `UNLISTED`, `LISTED`, `DELISTED` (editable on PATCH).
+
+**Relationships:** `productId`, `channelId`, optional `priceReference` (UUID to a price). No monetary fields on the offer resource — use Pricing for amounts.
+
+**Channels lookup:** Offer forms/filters use `GET /channels` (full list, cached) for channel names; no Channels UI module in this phase.
+
+**Limitations:** No list SKU/text search; create returns `409` if product+channel pair already exists; product names not on offer rows (product UUID + link).
+
 ## Pricing module (Phase 6)
 
 | Route | Purpose |
