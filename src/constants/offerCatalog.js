@@ -1,0 +1,29 @@
+/** Mirrors backend offer-status.js */
+export const OFFER_STATUS = {
+  DRAFT: 'DRAFT',
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE',
+  SUSPENDED: 'SUSPENDED',
+};
+
+export const OFFER_STATUS_OPTIONS = [
+  OFFER_STATUS.DRAFT,
+  OFFER_STATUS.ACTIVE,
+  OFFER_STATUS.INACTIVE,
+  OFFER_STATUS.SUSPENDED,
+];
+
+/** Mirrors backend listing-status.js */
+export const LISTING_STATUS = {
+  UNLISTED: 'UNLISTED',
+  LISTED: 'LISTED',
+  DELISTED: 'DELISTED',
+};
+
+export const LISTING_STATUS_OPTIONS = [
+  LISTING_STATUS.UNLISTED,
+  LISTING_STATUS.LISTED,
+  LISTING_STATUS.DELISTED,
+];
+
+export const DEFAULT_OFFER_LIST_LIMIT = 25;

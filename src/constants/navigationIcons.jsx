@@ -3,6 +3,7 @@ import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
 import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
 import HubOutlinedIcon from '@mui/icons-material/HubOutlined';
 import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
+import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
 import PlaylistAddCheckOutlinedIcon from '@mui/icons-material/PlaylistAddCheckOutlined';
 import QueueOutlinedIcon from '@mui/icons-material/QueueOutlined';
@@ -18,6 +19,7 @@ export const navigationIcons = {
   products: CategoryOutlinedIcon,
   inventory: Inventory2OutlinedIcon,
   pricing: ReceiptLongOutlinedIcon,
+  offers: LocalOfferOutlinedIcon,
   orders: PlaylistAddCheckOutlinedIcon,
   shipments: LocalShippingOutlinedIcon,
   returns: UndoOutlinedIcon,

@@ -90,6 +90,25 @@ Known backend gaps are documented in [docs/phase-1-channel-marketplace-frontend-
 
 See [docs/styling.md](./docs/styling.md) for conventions.
 
+## Offers module (Phase 7)
+
+| Route | Purpose |
+| ----- | ------- |
+| `/offers` | Cursor-paginated list (`productId`, `channelId`, `status`, `cursor`) |
+| `/offers/new` | Create offer |
+| `/offers/:offerId` | Detail + lifecycle actions |
+| `/offers/:offerId/edit` | Update references and listing status |
+
+**Lifecycle:** `DRAFT`, `ACTIVE`, `INACTIVE`, `SUSPENDED`. Activate via `POST /offers/:id/activate` (optional `resolvePricing` + `currency`). Suspend/deactivate via `PATCH` with `status`. Inactive offers cannot be updated.
+
+**Listing status:** `UNLISTED`, `LISTED`, `DELISTED` (editable on PATCH).
+
+**Relationships:** `productId`, `channelId`, optional `priceReference` (UUID to a price). No monetary fields on the offer resource — use Pricing for amounts.
+
+**Channels lookup:** Offer forms/filters use `GET /channels` (full list, cached) for channel names; no Channels UI module in this phase.
+
+**Limitations:** No list SKU/text search; create returns `409` if product+channel pair already exists; product names not on offer rows (product UUID + link).
+
 ## Pricing module (Phase 6)
 
 | Route | Purpose |
