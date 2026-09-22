@@ -90,6 +90,22 @@ Known backend gaps are documented in [docs/phase-1-channel-marketplace-frontend-
 
 See [docs/styling.md](./docs/styling.md) for conventions.
 
+## Orders module (Phase 8)
+
+| Route | Purpose |
+| ----- | ------- |
+| `/orders` | Cursor-paginated list (`status`, `channelId`, `externalOrderReference`, `orderNumber`, `createdAfter`, `createdBefore`, `cursor`) |
+| `/orders/new` | Create order |
+| `/orders/:orderId` | Detail + confirm (when status is `NEW`) |
+
+**Create:** `POST /orders` requires header **`Idempotency-Key`** (UUID). The create page keeps one key per visit for safe retries.
+
+**Money:** Order and line totals use integer **`amountMinor`** fields from the API (`subtotalMinor`, `totalMinor`, `unitPriceMinor`, etc.). Display via `formatMoneyMinor`; optional charge inputs on create convert decimal major units with `parseMajorUnitsToMinor`. Do not recalculate order totals client-side.
+
+**Lifecycle UI:** Only **confirm** is exposed (`POST /orders/:id/confirm`). No cancel/update/delete HTTP routes on the Order API — other statuses are backend/workflow driven.
+
+**Lookups:** Reuses `useChannels` and `useStockLocations` (no Channels admin UI).
+
 ## Offers module (Phase 7)
 
 | Route | Purpose |
