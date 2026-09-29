@@ -8,6 +8,10 @@ import { createContext } from 'react';
  * @property {boolean} isAuthenticated
  * @property {boolean} isLoading
  * @property {import('../services/auth/authService.js').MePayload | null} user
+ * @property {string[]} permissions
+ * @property {string[]} roles
+ * @property {string | null} membershipId
+ * @property {boolean} isRbacAvailable
  * @property {(input: import('../services/auth/authService.js').LoginInput) => Promise<void>} login
  * @property {() => Promise<void>} logout
  */

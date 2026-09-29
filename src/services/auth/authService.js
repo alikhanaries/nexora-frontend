@@ -6,7 +6,17 @@ import { refreshAccessTokenSingleFlight } from './tokenRefresh.js';
 /**
  * @typedef {{ tenantSlug: string, email: string, password: string }} LoginInput
  * @typedef {{ accessToken: string, refreshToken: string, expiresIn: number }} TokenPayload
- * @typedef {{ id: string, email: string, status: string, tenantId: string, membershipStatus: string }} MePayload
+ * @typedef {{
+ *   id: string,
+ *   email: string,
+ *   status: string,
+ *   tenantId: string,
+ *   membershipStatus: string,
+ *   membershipId?: string,
+ *   permissions?: string[],
+ *   effectivePermissions?: string[],
+ *   roles?: Array<string | { name?: string, systemKey?: string }>,
+ * }} MePayload
  */
 
 export const authService = {
