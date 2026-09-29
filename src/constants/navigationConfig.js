@@ -136,6 +136,7 @@ export const navigationConfig = [
     section: 'Administration',
     futureModule: false,
   },
+  { id: 'settings', label: 'Settings', path: '/settings', section: 'Administration', futureModule: false },
 ];
 
 /**
