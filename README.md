@@ -90,6 +90,20 @@ Known backend gaps are documented in [docs/phase-1-channel-marketplace-frontend-
 
 See [docs/styling.md](./docs/styling.md) for conventions.
 
+## Returns module (Phase 10)
+
+| Route | Purpose |
+| ----- | ------- |
+| `/returns` | Cursor list (`status`, `orderId`, `cursor`) |
+| `/returns/:returnId` | Detail + lifecycle actions |
+| `/orders/:orderId/returns/new` | Create return (Idempotency-Key) |
+
+**Statuses:** `REQUESTED`, `APPROVED`, `RECEIVED`, `COMPLETED`, `REJECTED`, `CANCELLED`.
+
+**Lifecycle:** approve (REQUESTED), receive (APPROVED), complete (RECEIVED), reject (REQUESTED), cancel (REQUESTED/APPROVED).
+
+**Limitations:** No list filter by shipmentId; no condition/refund fields; no `/returns/new` without order context (create is under order).
+
 ## Shipments module (Phase 9)
 
 | Route | Purpose |
