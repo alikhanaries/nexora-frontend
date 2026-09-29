@@ -1,0 +1,7 @@
+/** Mirrors backend marketplace-status.js */
+export const MARKETPLACE_STATUS = {
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE',
+};
+
+export const MARKETPLACE_STATUS_OPTIONS = [MARKETPLACE_STATUS.ACTIVE, MARKETPLACE_STATUS.INACTIVE];

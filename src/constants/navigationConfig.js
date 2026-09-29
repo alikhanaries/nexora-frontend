@@ -9,7 +9,7 @@ import { PERMISSIONS } from './permissions.js';
 
 /** @type {NavItem[]} */
 export const navigationConfig = [
-  { id: 'overview', label: 'Overview', path: '/', section: 'Main', futureModule: true },
+  { id: 'overview', label: 'Overview', path: '/', section: 'Main', futureModule: false },
   {
     id: 'products',
     label: 'Products',
@@ -75,6 +75,14 @@ export const navigationConfig = [
     futureModule: false,
   },
   {
+    id: 'marketplaces',
+    label: 'Marketplaces',
+    path: '/marketplaces',
+    section: 'Integrations',
+    permissionKey: PERMISSIONS.MARKETPLACES_READ,
+    futureModule: false,
+  },
+  {
     id: 'channels',
     label: 'Channels',
     path: '/channels',
@@ -98,14 +106,36 @@ export const navigationConfig = [
   },
   { id: 'queue', label: 'Queue', path: '/queue', section: 'Integrations', futureModule: true },
   {
+    id: 'api-keys',
+    label: 'API keys',
+    path: '/api-keys',
+    section: 'Administration',
+    permissionKey: PERMISSIONS.API_KEYS_READ,
+    futureModule: false,
+  },
+  {
+    id: 'webhooks',
+    label: 'Webhooks',
+    path: '/webhooks',
+    section: 'Administration',
+    permissionKey: PERMISSIONS.WEBHOOKS_READ,
+    futureModule: false,
+  },
+  {
     id: 'audit',
     label: 'Audit logs',
     path: '/audit',
     section: 'Administration',
     permissionKey: PERMISSIONS.AUDIT_READ,
-    futureModule: true,
+    futureModule: false,
   },
-  { id: 'settings', label: 'Settings', path: '/settings', section: 'Administration', futureModule: true },
+  {
+    id: 'settings',
+    label: 'Settings',
+    path: '/settings',
+    section: 'Administration',
+    futureModule: false,
+  },
 ];
 
 /**
@@ -114,5 +144,9 @@ export const navigationConfig = [
  */
 export function findNavItemByPath(pathname) {
   const normalized = pathname === '' ? '/' : pathname;
-  return navigationConfig.find((item) => item.path === normalized);
+  const exact = navigationConfig.find((item) => item.path === normalized);
+  if (exact) return exact;
+  return navigationConfig.find(
+    (item) => item.path !== '/' && normalized.startsWith(`${item.path}/`),
+  );
 }
