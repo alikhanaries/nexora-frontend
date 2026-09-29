@@ -31,6 +31,8 @@ export const navigationIcons = {
   integrations: HubOutlinedIcon,
   sync: SyncOutlinedIcon,
   queue: QueueOutlinedIcon,
+  'api-keys': VpnKeyOutlinedIcon,
+  webhooks: WebhookOutlinedIcon,
   audit: AssessmentOutlinedIcon,
   settings: SettingsOutlinedIcon,
 };
