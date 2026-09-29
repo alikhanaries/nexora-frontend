@@ -95,4 +95,13 @@ export const ordersService = {
   confirmOrder(orderId) {
     return apiRequest({ method: 'POST', url: `/orders/${orderId}/confirm`, data: {} });
   },
+
+  /**
+   * POST /api/v1/orders/:orderId/cancel
+   * @param {string} orderId
+   * @param {{ reason?: string|null, lines?: Array<{ orderLineId: string, quantity: number }> }} [body]
+   */
+  cancelOrder(orderId, body = {}) {
+    return apiRequest({ method: 'POST', url: `/orders/${orderId}/cancel`, data: body });
+  },
 };

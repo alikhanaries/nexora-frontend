@@ -1,4 +1,5 @@
 import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
+import BlockOutlinedIcon from '@mui/icons-material/BlockOutlined';
 import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
 import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
 import HubOutlinedIcon from '@mui/icons-material/HubOutlined';
@@ -23,6 +24,7 @@ export const navigationIcons = {
   offers: LocalOfferOutlinedIcon,
   orders: PlaylistAddCheckOutlinedIcon,
   shipments: LocalShippingOutlinedIcon,
+  cancellations: BlockOutlinedIcon,
   returns: UndoOutlinedIcon,
   marketplaces: PublicOutlinedIcon,
   channels: StorefrontOutlinedIcon,

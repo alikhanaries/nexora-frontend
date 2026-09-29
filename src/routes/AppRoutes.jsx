@@ -9,6 +9,7 @@ import { InventoryRoutes } from './InventoryRoutes.jsx';
 import { OffersRoutes } from './OffersRoutes.jsx';
 import { OrdersRoutes } from './OrdersRoutes.jsx';
 import { ShipmentsRoutes } from './ShipmentsRoutes.jsx';
+import { CancellationsRoutes } from './CancellationsRoutes.jsx';
 import { ChannelsRoutes } from './ChannelsRoutes.jsx';
 import { MarketplacesRoutes } from './MarketplacesRoutes.jsx';
 import { PricingRoutes } from './PricingRoutes.jsx';
@@ -32,21 +33,14 @@ export function AppRoutes() {
           <Route path="offers/*" element={<OffersRoutes />} />
           <Route path="orders/*" element={<OrdersRoutes />} />
           <Route path="shipments/*" element={<ShipmentsRoutes />} />
-          <Route path="marketplaces/*" element={<MarketplacesRoutes />} />
+          <Route path="cancellations/*" element={<CancellationsRoutes />} />
           <Route path="channels/*" element={<ChannelsRoutes />} />
           {navigationConfig
             .filter(
               (item) =>
-                ![
-                  'products',
-                  'inventory',
-                  'pricing',
-                  'offers',
-                  'orders',
-                  'shipments',
-                  'marketplaces',
-                  'channels',
-                ].includes(item.id),
+                !['products', 'inventory', 'pricing', 'offers', 'orders', 'shipments', 'cancellations', 'channels'].includes(
+                  item.id,
+                ),
             )
             .map((item) =>
               item.path === '/' ? (
