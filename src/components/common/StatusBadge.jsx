@@ -7,9 +7,11 @@ import { getPriceStatusPresentation } from '../../constants/priceStatusPresentat
 import { getProductStatusPresentation } from '../../constants/productStatusPresentation.js';
 import { getStockLocationStatusPresentation } from '../../constants/stockLocationStatusPresentation.js';
 import { getChannelStatusPresentation } from '../../constants/channelStatusPresentation.js';
+import { getCancellationStatusPresentation } from '../../constants/cancellationStatusPresentation.js';
+import { getMarketplaceConnectionStatusPresentation } from '../../constants/marketplaceConnectionStatusPresentation.js';
 
 /**
- * @param {{ status: string, domain?: 'product' | 'stockLocation' | 'pricing' | 'offer' | 'listing' | 'order' | 'shipment' | 'channel' }} props
+ * @param {{ status: string, domain?: 'product' | 'stockLocation' | 'pricing' | 'offer' | 'listing' | 'order' | 'shipment' | 'channel' | 'cancellation' | 'marketplaceConnection' }} props
  */
 export function StatusBadge({ status, domain = 'product' }) {
   const presentation =
@@ -21,15 +23,19 @@ export function StatusBadge({ status, domain = 'product' }) {
           ? getShipmentStatusPresentation(status)
           : domain === 'order'
             ? getOrderStatusPresentation(status)
-            : domain === 'offer'
-              ? getOfferStatusPresentation(status)
-              : domain === 'listing'
-                ? getListingStatusPresentation(status)
-                : domain === 'channel'
-                  ? getChannelStatusPresentation(status)
-                  : domain === 'product'
-                    ? getProductStatusPresentation(status)
-                    : { label: status, muiColor: 'default' };
+            : domain === 'cancellation'
+              ? getCancellationStatusPresentation(status)
+              : domain === 'marketplaceConnection'
+                ? getMarketplaceConnectionStatusPresentation(status)
+                : domain === 'offer'
+                ? getOfferStatusPresentation(status)
+                : domain === 'listing'
+                  ? getListingStatusPresentation(status)
+                  : domain === 'channel'
+                    ? getChannelStatusPresentation(status)
+                    : domain === 'product'
+                      ? getProductStatusPresentation(status)
+                      : { label: status, muiColor: 'default' };
   return (
     <Chip
       size="small"
