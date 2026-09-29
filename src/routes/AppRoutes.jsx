@@ -10,6 +10,7 @@ import { OffersRoutes } from './OffersRoutes.jsx';
 import { OrdersRoutes } from './OrdersRoutes.jsx';
 import { ShipmentsRoutes } from './ShipmentsRoutes.jsx';
 import { ChannelsRoutes } from './ChannelsRoutes.jsx';
+import { AuditRoutes } from './AuditRoutes.jsx';
 import { PricingRoutes } from './PricingRoutes.jsx';
 import { ProductsRoutes } from './ProductsRoutes.jsx';
 import { ProtectedRoute } from './ProtectedRoute.jsx';
@@ -32,10 +33,20 @@ export function AppRoutes() {
           <Route path="orders/*" element={<OrdersRoutes />} />
           <Route path="shipments/*" element={<ShipmentsRoutes />} />
           <Route path="channels/*" element={<ChannelsRoutes />} />
+          <Route path="audit/*" element={<AuditRoutes />} />
           {navigationConfig
             .filter(
               (item) =>
-                !['products', 'inventory', 'pricing', 'offers', 'orders', 'shipments', 'channels'].includes(item.id),
+                ![
+                  'products',
+                  'inventory',
+                  'pricing',
+                  'offers',
+                  'orders',
+                  'shipments',
+                  'channels',
+                  'audit',
+                ].includes(item.id),
             )
             .map((item) =>
               item.path === '/' ? (

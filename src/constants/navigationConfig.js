@@ -31,7 +31,7 @@ export const navigationConfig = [
     futureModule: true,
   },
   { id: 'queue', label: 'Queue', path: '/queue', section: 'Integrations', futureModule: true },
-  { id: 'audit', label: 'Audit logs', path: '/audit', section: 'Administration', futureModule: true },
+  { id: 'audit', label: 'Audit logs', path: '/audit', section: 'Administration', futureModule: false },
   { id: 'settings', label: 'Settings', path: '/settings', section: 'Administration', futureModule: true },
 ];
 
