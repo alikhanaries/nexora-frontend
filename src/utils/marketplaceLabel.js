@@ -17,3 +17,12 @@ export function formatMarketplaceLabel(marketplaces, marketplaceId) {
   if (match) return `${match.name} (${match.key})`;
   return marketplaceId;
 }
+
+/**
+ * @param {import('../services/api/marketplacesService.js').Marketplace[] | undefined} marketplaces
+ * @param {string} marketplaceId
+ */
+export function resolveMarketplaceKey(marketplaces, marketplaceId) {
+  const match = marketplaces?.find((marketplace) => marketplace.id === marketplaceId);
+  return match?.key ?? '';
+}

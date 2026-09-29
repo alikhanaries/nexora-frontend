@@ -8,9 +8,10 @@ import { getProductStatusPresentation } from '../../constants/productStatusPrese
 import { getStockLocationStatusPresentation } from '../../constants/stockLocationStatusPresentation.js';
 import { getChannelStatusPresentation } from '../../constants/channelStatusPresentation.js';
 import { getCancellationStatusPresentation } from '../../constants/cancellationStatusPresentation.js';
+import { getMarketplaceConnectionStatusPresentation } from '../../constants/marketplaceConnectionStatusPresentation.js';
 
 /**
- * @param {{ status: string, domain?: 'product' | 'stockLocation' | 'pricing' | 'offer' | 'listing' | 'order' | 'shipment' | 'channel' | 'cancellation' }} props
+ * @param {{ status: string, domain?: 'product' | 'stockLocation' | 'pricing' | 'offer' | 'listing' | 'order' | 'shipment' | 'channel' | 'cancellation' | 'marketplaceConnection' }} props
  */
 export function StatusBadge({ status, domain = 'product' }) {
   const presentation =
@@ -24,7 +25,9 @@ export function StatusBadge({ status, domain = 'product' }) {
             ? getOrderStatusPresentation(status)
             : domain === 'cancellation'
               ? getCancellationStatusPresentation(status)
-              : domain === 'offer'
+              : domain === 'marketplaceConnection'
+                ? getMarketplaceConnectionStatusPresentation(status)
+                : domain === 'offer'
                 ? getOfferStatusPresentation(status)
                 : domain === 'listing'
                   ? getListingStatusPresentation(status)
