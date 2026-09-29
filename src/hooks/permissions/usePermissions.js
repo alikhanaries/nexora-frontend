@@ -1,18 +1,55 @@
-/**
- * Permission checks for navigation/actions.
- * GAP-1: `/auth/me` does not expose permissions — do not assume RBAC.
- */
+import { useMemo } from 'react';
+import { useAuth } from '../useAuth.js';
+import {
+  hasAllPermissions,
+  hasAnyPermission,
+  hasPermission,
+} from '../../utils/normalizeAuthPrincipal.js';
 
 export function usePermissions() {
-  return {
-    /**
-     * @param {string} _permissionKey
-     * @returns {boolean}
-     */
-    can(_permissionKey) {
-      void _permissionKey;
-      return true;
-    },
-    isRbacAvailable: false,
-  };
+  const { isLoading, permissions, roles, isRbacAvailable } = useAuth();
+
+  return useMemo(
+    () => ({
+      permissions,
+      roles,
+      isRbacAvailable,
+      isLoading,
+      /**
+       * UX authorization only — backend enforces real access.
+       * Returns false while RBAC data is unavailable (backend GAP-18).
+       * @param {string} permissionKey
+       */
+      can(permissionKey) {
+        if (!isRbacAvailable) {
+          return false;
+        }
+        return hasPermission(permissions, permissionKey);
+      },
+      /**
+       * @param {string} roleName
+       */
+      hasRole(roleName) {
+        if (!isRbacAvailable) {
+          return false;
+        }
+        return roles.includes(roleName);
+      },
+      /** @param {string[]} permissionKeys */
+      canAny(permissionKeys) {
+        if (!isRbacAvailable) {
+          return false;
+        }
+        return hasAnyPermission(permissions, permissionKeys);
+      },
+      /** @param {string[]} permissionKeys */
+      canAll(permissionKeys) {
+        if (!isRbacAvailable) {
+          return false;
+        }
+        return hasAllPermissions(permissions, permissionKeys);
+      },
+    }),
+    [permissions, roles, isRbacAvailable, isLoading],
+  );
 }

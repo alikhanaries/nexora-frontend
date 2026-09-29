@@ -14,7 +14,9 @@ import { ChannelsRoutes } from './ChannelsRoutes.jsx';
 import { MarketplacesRoutes } from './MarketplacesRoutes.jsx';
 import { PricingRoutes } from './PricingRoutes.jsx';
 import { ProductsRoutes } from './ProductsRoutes.jsx';
+import { PERMISSIONS } from '../constants/permissions.js';
 import { ProtectedRoute } from './ProtectedRoute.jsx';
+import { RequirePermission } from './RequirePermission.jsx';
 
 export function AppRoutes() {
   return (
@@ -27,14 +29,30 @@ export function AppRoutes() {
 
       <Route element={<ProtectedRoute />}>
         <Route element={<AppLayout />}>
-          <Route path="products/*" element={<ProductsRoutes />} />
-          <Route path="inventory/*" element={<InventoryRoutes />} />
-          <Route path="pricing/*" element={<PricingRoutes />} />
-          <Route path="offers/*" element={<OffersRoutes />} />
-          <Route path="orders/*" element={<OrdersRoutes />} />
-          <Route path="shipments/*" element={<ShipmentsRoutes />} />
-          <Route path="cancellations/*" element={<CancellationsRoutes />} />
-          <Route path="channels/*" element={<ChannelsRoutes />} />
+          <Route element={<RequirePermission permission={PERMISSIONS.PRODUCTS_READ} />}>
+            <Route path="products/*" element={<ProductsRoutes />} />
+          </Route>
+          <Route element={<RequirePermission permission={PERMISSIONS.INVENTORY_READ} />}>
+            <Route path="inventory/*" element={<InventoryRoutes />} />
+          </Route>
+          <Route element={<RequirePermission permission={PERMISSIONS.PRICING_READ} />}>
+            <Route path="pricing/*" element={<PricingRoutes />} />
+          </Route>
+          <Route element={<RequirePermission permission={PERMISSIONS.OFFERS_READ} />}>
+            <Route path="offers/*" element={<OffersRoutes />} />
+          </Route>
+          <Route element={<RequirePermission permission={PERMISSIONS.ORDERS_READ} />}>
+            <Route path="orders/*" element={<OrdersRoutes />} />
+          </Route>
+          <Route element={<RequirePermission permission={PERMISSIONS.SHIPMENTS_READ} />}>
+            <Route path="shipments/*" element={<ShipmentsRoutes />} />
+          </Route>
+          <Route element={<RequirePermission permission={PERMISSIONS.CANCELLATIONS_READ} />}>
+            <Route path="cancellations/*" element={<CancellationsRoutes />} />
+          </Route>
+          <Route element={<RequirePermission permission={PERMISSIONS.CHANNELS_READ} />}>
+            <Route path="channels/*" element={<ChannelsRoutes />} />
+          </Route>
           {navigationConfig
             .filter(
               (item) =>
