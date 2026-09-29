@@ -12,12 +12,20 @@ import { NavLink } from 'react-router-dom';
 import { navigationConfig } from '../../constants/navigationConfig.js';
 import { navigationIcons } from '../../constants/navigationIcons.jsx';
 import { sidebarWidths } from '../../constants/sidebar.js';
+import { useAuth } from '../../hooks/useAuth.js';
+import { filterNavigationItems } from '../../utils/filterNavigationItems.js';
 
 /**
  * @param {{ collapsed: boolean, onNavigate?: () => void }} props
  */
 export function Sidebar({ collapsed, onNavigate }) {
-  const sections = navigationConfig.reduce((acc, item) => {
+  const { permissions, isRbacAvailable, isLoading } = useAuth();
+  const visibleItems = filterNavigationItems(navigationConfig, {
+    permissions,
+    isRbacAvailable: isRbacAvailable && !isLoading,
+  });
+
+  const sections = visibleItems.reduce((acc, item) => {
     const section = item.section ?? 'Main';
     if (!acc[section]) acc[section] = [];
     acc[section].push(item);

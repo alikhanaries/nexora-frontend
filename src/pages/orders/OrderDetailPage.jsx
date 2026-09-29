@@ -29,7 +29,10 @@ import { confirmAction } from '../../utils/confirmDialog.js';
 import { formatDate } from '../../utils/formatDate.js';
 import { formatMoneyMinor } from '../../utils/money.js';
 import { OrderShipmentsPanel } from '../../components/shipments/OrderShipmentsPanel.jsx';
+import { PERMISSIONS } from '../../constants/permissions.js';
+import { usePermissions } from '../../hooks/permissions/usePermissions.js';
 import { isOrderCancellableStatus, orderHasCancellableLines } from '../../utils/orderCancellability.js';
+import { canShowPermissionAction } from '../../utils/permissionAction.js';
 
 function formatAddress(address) {
   if (!address || typeof address !== 'object') return '—';
@@ -47,6 +50,7 @@ export function OrderDetailPage() {
   const confirmMutation = useConfirmOrder();
   const cancelMutation = useCancelOrder(orderId);
   const { notify } = useNotification();
+  const permission = usePermissions();
   const [cancelDialogOpen, setCancelDialogOpen] = useState(false);
 
   const runConfirm = async () => {
@@ -87,9 +91,12 @@ export function OrderDetailPage() {
   if (!order) return null;
 
   const currency = order.currency;
-  const canConfirm = order.status === ORDER_STATUS.NEW;
+  const canConfirm =
+    order.status === ORDER_STATUS.NEW && canShowPermissionAction(permission, PERMISSIONS.ORDERS_UPDATE);
   const canCancel =
-    isOrderCancellableStatus(order.status) && orderHasCancellableLines(order.lines);
+    isOrderCancellableStatus(order.status) &&
+    orderHasCancellableLines(order.lines) &&
+    canShowPermissionAction(permission, PERMISSIONS.ORDERS_CANCEL);
 
   const runCancelOrder = async (body) => {
     const result = await confirmAction({
