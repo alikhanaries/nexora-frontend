@@ -312,6 +312,8 @@ export function OrderDetailPage() {
         </Box>
       </Paper>
 
+      <OrderReturnsPanel orderId={order.id} />
+
       <OrderShipmentsPanel orderId={order.id} />
       <OrderReturnsPanel orderId={order.id} />
 

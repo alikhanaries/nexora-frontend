@@ -17,6 +17,7 @@ export const PERMISSIONS = {
   CHANNELS_READ: 'channels.read',
   CHANNELS_UPDATE: 'channels.update',
   PRODUCTS_READ: 'products.read',
+  PRODUCTS_UPDATE: 'products.update',
   INVENTORY_READ: 'inventory.read',
   PRICING_READ: 'pricing.read',
   OFFERS_READ: 'offers.read',
