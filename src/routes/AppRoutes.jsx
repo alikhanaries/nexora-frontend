@@ -48,6 +48,9 @@ export function AppRoutes() {
           <Route element={<RequirePermission permission={PERMISSIONS.SHIPMENTS_READ} />}>
             <Route path="shipments/*" element={<ShipmentsRoutes />} />
           </Route>
+          <Route element={<RequirePermission permission={PERMISSIONS.RETURNS_READ} />}>
+            <Route path="returns/*" element={<ReturnsRoutes />} />
+          </Route>
           <Route element={<RequirePermission permission={PERMISSIONS.CANCELLATIONS_READ} />}>
             <Route path="cancellations/*" element={<CancellationsRoutes />} />
           </Route>
@@ -57,9 +60,17 @@ export function AppRoutes() {
           {navigationConfig
             .filter(
               (item) =>
-                !['products', 'inventory', 'pricing', 'offers', 'orders', 'shipments', 'cancellations', 'channels'].includes(
-                  item.id,
-                ),
+                ![
+                  'products',
+                  'inventory',
+                  'pricing',
+                  'offers',
+                  'orders',
+                  'shipments',
+                  'returns',
+                  'cancellations',
+                  'channels',
+                ].includes(item.id),
             )
             .map((item) =>
               item.path === '/' ? (

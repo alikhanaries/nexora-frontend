@@ -132,4 +132,20 @@ export const productsService = {
       url: `/products/${productId}/content`,
     });
   },
+
+  /**
+   * PUT /api/v1/products/:productId/content/:locale
+   * Backend replaces omitted merchandising fields with null/{} — send a full payload from the editor.
+   * @param {string} productId
+   * @param {string} locale
+   * @param {{ title?: string|null, description?: string|null, brand?: string|null, attributes?: Record<string, unknown> }} body
+   * @returns {Promise<ProductContent>}
+   */
+  upsertProductContent(productId, locale, body) {
+    return apiRequest({
+      method: 'PUT',
+      url: `/products/${productId}/content/${encodeURIComponent(locale)}`,
+      data: body,
+    });
+  },
 };
