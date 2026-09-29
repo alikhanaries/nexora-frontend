@@ -12,6 +12,7 @@ import { ReturnsRoutes } from './ReturnsRoutes.jsx';
 import { ShipmentsRoutes } from './ShipmentsRoutes.jsx';
 import { CancellationsRoutes } from './CancellationsRoutes.jsx';
 import { ChannelsRoutes } from './ChannelsRoutes.jsx';
+import { AuditRoutes } from './AuditRoutes.jsx';
 import { PricingRoutes } from './PricingRoutes.jsx';
 import { ProductsRoutes } from './ProductsRoutes.jsx';
 import { PERMISSIONS } from '../constants/permissions.js';
