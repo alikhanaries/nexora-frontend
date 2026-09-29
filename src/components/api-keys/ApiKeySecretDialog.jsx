@@ -19,10 +19,18 @@ import { copyToClipboard } from '../../utils/copyToClipboard.js';
  *   title: string,
  *   secret: string,
  *   helperText?: string,
+ *   secretFieldLabel?: string,
  *   onClose: () => void,
  * }} props
  */
-export function ApiKeySecretDialog({ open, title, secret, helperText, onClose }) {
+export function ApiKeySecretDialog({
+  open,
+  title,
+  secret,
+  helperText,
+  secretFieldLabel = 'API key secret',
+  onClose,
+}) {
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
@@ -49,7 +57,7 @@ export function ApiKeySecretDialog({ open, title, secret, helperText, onClose })
           </Typography>
         ) : null}
         <TextField
-          label="API key secret"
+          label={secretFieldLabel}
           value={secret}
           fullWidth
           size="small"

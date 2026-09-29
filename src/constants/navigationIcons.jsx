@@ -7,6 +7,7 @@ import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
 import PlaylistAddCheckOutlinedIcon from '@mui/icons-material/PlaylistAddCheckOutlined';
 import VpnKeyOutlinedIcon from '@mui/icons-material/VpnKeyOutlined';
+import WebhookOutlinedIcon from '@mui/icons-material/WebhookOutlined';
 import QueueOutlinedIcon from '@mui/icons-material/QueueOutlined';
 import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
@@ -29,6 +30,7 @@ export const navigationIcons = {
   sync: SyncOutlinedIcon,
   queue: QueueOutlinedIcon,
   'api-keys': VpnKeyOutlinedIcon,
+  webhooks: WebhookOutlinedIcon,
   audit: AssessmentOutlinedIcon,
   settings: SettingsOutlinedIcon,
 };
