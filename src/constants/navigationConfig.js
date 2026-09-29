@@ -105,7 +105,7 @@ export const navigationConfig = [
     permissionKey: PERMISSIONS.AUDIT_READ,
     futureModule: true,
   },
-  { id: 'settings', label: 'Settings', path: '/settings', section: 'Administration', futureModule: true },
+  { id: 'settings', label: 'Settings', path: '/settings', section: 'Administration', futureModule: false },
 ];
 
 /**

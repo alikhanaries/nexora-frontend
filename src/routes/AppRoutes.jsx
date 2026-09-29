@@ -18,6 +18,7 @@ import { ProductsRoutes } from './ProductsRoutes.jsx';
 import { PERMISSIONS } from '../constants/permissions.js';
 import { ProtectedRoute } from './ProtectedRoute.jsx';
 import { RequirePermission } from './RequirePermission.jsx';
+import { SettingsRoutes } from './SettingsRoutes.jsx';
 
 export function AppRoutes() {
   return (
@@ -54,9 +55,13 @@ export function AppRoutes() {
           <Route element={<RequirePermission permission={PERMISSIONS.CANCELLATIONS_READ} />}>
             <Route path="cancellations/*" element={<CancellationsRoutes />} />
           </Route>
+          <Route element={<RequirePermission permission={PERMISSIONS.RETURNS_READ} />}>
+            <Route path="returns/*" element={<ReturnsRoutes />} />
+          </Route>
           <Route element={<RequirePermission permission={PERMISSIONS.CHANNELS_READ} />}>
             <Route path="channels/*" element={<ChannelsRoutes />} />
           </Route>
+          <Route path="settings/*" element={<SettingsRoutes />} />
           {navigationConfig
             .filter(
               (item) =>
@@ -67,9 +72,10 @@ export function AppRoutes() {
                   'offers',
                   'orders',
                   'shipments',
-                  'returns',
                   'cancellations',
+                  'returns',
                   'channels',
+                  'settings',
                 ].includes(item.id),
             )
             .map((item) =>

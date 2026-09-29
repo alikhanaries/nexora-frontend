@@ -23,4 +23,5 @@ export const PERMISSIONS = {
   OFFERS_READ: 'offers.read',
   SHIPMENTS_READ: 'shipments.read',
   RETURNS_READ: 'returns.read',
+  MFA_MANAGE: 'mfa.manage',
 };
