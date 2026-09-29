@@ -106,6 +106,14 @@ export const navigationConfig = [
   },
   { id: 'queue', label: 'Queue', path: '/queue', section: 'Integrations', futureModule: true },
   {
+    id: 'roles',
+    label: 'Roles',
+    path: '/roles',
+    section: 'Administration',
+    permissionKey: PERMISSIONS.ROLES_READ,
+    futureModule: false,
+  },
+  {
     id: 'api-keys',
     label: 'API keys',
     path: '/api-keys',

@@ -17,6 +17,7 @@ import { CursorPagination } from '../../components/common/CursorPagination.jsx';
 import { StatusBadge } from '../../components/common/StatusBadge.jsx';
 import { ApiKeySecretDialog } from '../../components/api-keys/ApiKeySecretDialog.jsx';
 import { WebhookDeliveriesTable } from '../../components/webhooks/WebhookDeliveriesTable.jsx';
+import { WebhookDeliveryDetailDialog } from '../../components/webhooks/WebhookDeliveryDetailDialog.jsx';
 import {
   DEFAULT_WEBHOOK_LIST_LIMIT,
   WEBHOOK_DELIVERY_STATUS_OPTIONS,
@@ -42,6 +43,7 @@ export function WebhookDetailPage() {
   const deliveryEventType = searchParams.get('deliveryEventType') ?? '';
   const deliveryCursor = searchParams.get('deliveryCursor') ?? '';
   const [deliveryCursorBackStack, setDeliveryCursorBackStack] = useState(/** @type {string[]} */ ([]));
+  const [selectedDeliveryId, setSelectedDeliveryId] = useState(/** @type {string | null} */ (null));
 
   const { data: webhook, isLoading, isError, error, refetch } = useWebhook(webhookId);
   const deliveryFilters = useMemo(
@@ -322,7 +324,11 @@ export function WebhookDetailPage() {
           </Typography>
         ) : (
           <>
-            <WebhookDeliveriesTable deliveries={deliveries} isLoading={deliveriesLoading} />
+            <WebhookDeliveriesTable
+              deliveries={deliveries}
+              isLoading={deliveriesLoading}
+              onSelectDelivery={(deliveryId) => setSelectedDeliveryId(deliveryId)}
+            />
             <CursorPagination
               hasMore={Boolean(deliveryPage?.hasMore)}
               hasPrevious={deliveryCursorBackStack.length > 0 || Boolean(deliveryCursor)}
@@ -333,6 +339,12 @@ export function WebhookDetailPage() {
           </>
         )}
       </Paper>
+      <WebhookDeliveryDetailDialog
+        open={Boolean(selectedDeliveryId)}
+        webhookId={webhookId ?? ''}
+        deliveryId={selectedDeliveryId}
+        onClose={() => setSelectedDeliveryId(null)}
+      />
       <ApiKeySecretDialog
         open={secretDialog.open}
         title={secretDialog.title}

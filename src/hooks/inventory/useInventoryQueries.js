@@ -10,6 +10,15 @@ export function useStockLocations() {
   });
 }
 
+export function useStockLocation(stockLocationId) {
+  return useQuery({
+    queryKey: inventoryQueryKeys.locationDetail(stockLocationId),
+    queryFn: () => inventoryService.getStockLocation(stockLocationId),
+    enabled: Boolean(stockLocationId),
+    staleTime: 2 * 60 * 1000,
+  });
+}
+
 /**
  * @param {{ stockLocationId?: string }} filters
  */

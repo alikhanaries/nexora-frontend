@@ -6,6 +6,8 @@ import { PageHeader } from '../../components/common/PageHeader.jsx';
 import { AccountSummaryPanel } from '../../components/settings/AccountSummaryPanel.jsx';
 import { MfaEnrollmentPanel } from '../../components/settings/MfaEnrollmentPanel.jsx';
 import { MfaStepUpPanel } from '../../components/settings/MfaStepUpPanel.jsx';
+import { TenantOrganizationPanel } from '../../components/settings/TenantOrganizationPanel.jsx';
+import { DeveloperToolsPanel } from '../../components/settings/DeveloperToolsPanel.jsx';
 import { useAuth } from '../../hooks/useAuth.js';
 
 export function SettingsPage() {
@@ -19,6 +21,8 @@ export function SettingsPage() {
       />
       <Box className="flex flex-col gap-4">
         <AccountSummaryPanel />
+        <TenantOrganizationPanel />
+        <DeveloperToolsPanel />
 
         <Paper variant="outlined" className="p-4">
           <Typography variant="subtitle2" gutterBottom>

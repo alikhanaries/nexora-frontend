@@ -14,9 +14,10 @@ import { formatDate } from '../../utils/formatDate.js';
  * @param {{
  *   deliveries: import('../../services/api/webhooksService.js').WebhookDelivery[],
  *   isLoading: boolean,
+ *   onSelectDelivery?: (deliveryId: string) => void,
  * }} props
  */
-export function WebhookDeliveriesTable({ deliveries, isLoading }) {
+export function WebhookDeliveriesTable({ deliveries, isLoading, onSelectDelivery }) {
   return (
     <TableContainer component={Paper} className="overflow-x-auto">
       <Table size="small" aria-label="Webhook deliveries">
@@ -35,7 +36,12 @@ export function WebhookDeliveriesTable({ deliveries, isLoading }) {
         ) : (
           <TableBody>
             {deliveries.map((delivery) => (
-              <TableRow key={delivery.id} hover>
+              <TableRow
+                key={delivery.id}
+                hover
+                sx={onSelectDelivery ? { cursor: 'pointer' } : undefined}
+                onClick={onSelectDelivery ? () => onSelectDelivery(delivery.id) : undefined}
+              >
                 <TableCell>
                   <Typography variant="body2" fontFamily="monospace">
                     {delivery.eventType}

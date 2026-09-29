@@ -9,7 +9,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 import { useCallback, useMemo, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { Link as RouterLink, useSearchParams } from 'react-router-dom';
 import { PageHeader } from '../../components/common/PageHeader.jsx';
 import { StatusBadge } from '../../components/common/StatusBadge.jsx';
 import { CreateStockLocationDialog } from '../../components/inventory/CreateStockLocationDialog.jsx';
@@ -153,7 +153,11 @@ export function InventoryPage() {
               ) : (
                 locations.map((location) => (
                   <TableRow key={location.id} hover>
-                    <TableCell>{location.name}</TableCell>
+                    <TableCell>
+                      <RouterLink to={`/inventory/locations/${location.id}`} className="text-inherit underline-offset-2 hover:underline">
+                        {location.name}
+                      </RouterLink>
+                    </TableCell>
                     <TableCell>{location.externalReference ?? '—'}</TableCell>
                     <TableCell>
                       <StatusBadge status={location.status} domain="stockLocation" />

@@ -3,6 +3,7 @@ import { navigationConfig } from '../constants/navigationConfig.js';
 import { AppLayout } from '../layouts/AppLayout.jsx';
 import { AuthLayout } from '../layouts/AuthLayout.jsx';
 import { LoginPage } from '../pages/auth/LoginPage.jsx';
+import { TenantRegisterPage } from '../pages/auth/TenantRegisterPage.jsx';
 import { ModulePlaceholderPage } from '../pages/ModulePlaceholderPage.jsx';
 import { OverviewPage } from '../pages/overview/OverviewPage.jsx';
 import { GuestRoute } from './GuestRoute.jsx';
@@ -19,11 +20,11 @@ import { AuditRoutes } from './AuditRoutes.jsx';
 import { PricingRoutes } from './PricingRoutes.jsx';
 import { SettingsRoutes } from './SettingsRoutes.jsx';
 import { WebhooksRoutes } from './WebhooksRoutes.jsx';
+import { RolesRoutes } from './RolesRoutes.jsx';
 import { ProductsRoutes } from './ProductsRoutes.jsx';
 import { PERMISSIONS } from '../constants/permissions.js';
 import { ProtectedRoute } from './ProtectedRoute.jsx';
 import { RequirePermission } from './RequirePermission.jsx';
-import { SettingsRoutes } from './SettingsRoutes.jsx';
 
 export function AppRoutes() {
   return (
@@ -31,6 +32,7 @@ export function AppRoutes() {
       <Route element={<GuestRoute />}>
         <Route element={<AuthLayout />}>
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/register-tenant" element={<TenantRegisterPage />} />
         </Route>
       </Route>
 
@@ -64,11 +66,20 @@ export function AppRoutes() {
           <Route element={<RequirePermission permission={PERMISSIONS.CANCELLATIONS_READ} />}>
             <Route path="cancellations/*" element={<CancellationsRoutes />} />
           </Route>
-          <Route element={<RequirePermission permission={PERMISSIONS.RETURNS_READ} />}>
-            <Route path="returns/*" element={<ReturnsRoutes />} />
-          </Route>
           <Route element={<RequirePermission permission={PERMISSIONS.CHANNELS_READ} />}>
             <Route path="channels/*" element={<ChannelsRoutes />} />
+          </Route>
+          <Route element={<RequirePermission permission={PERMISSIONS.ROLES_READ} />}>
+            <Route path="roles/*" element={<RolesRoutes />} />
+          </Route>
+          <Route element={<RequirePermission permission={PERMISSIONS.AUDIT_READ} />}>
+            <Route path="audit/*" element={<AuditRoutes />} />
+          </Route>
+          <Route element={<RequirePermission permission={PERMISSIONS.API_KEYS_READ} />}>
+            <Route path="api-keys/*" element={<ApiKeysRoutes />} />
+          </Route>
+          <Route element={<RequirePermission permission={PERMISSIONS.WEBHOOKS_READ} />}>
+            <Route path="webhooks/*" element={<WebhooksRoutes />} />
           </Route>
           <Route path="settings/*" element={<SettingsRoutes />} />
           {navigationConfig
@@ -82,9 +93,14 @@ export function AppRoutes() {
                   'offers',
                   'orders',
                   'shipments',
-                  'cancellations',
                   'returns',
+                  'cancellations',
+                  'marketplaces',
                   'channels',
+                  'roles',
+                  'audit',
+                  'api-keys',
+                  'webhooks',
                   'settings',
                 ].includes(item.id),
             )

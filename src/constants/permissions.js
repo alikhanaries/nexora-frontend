@@ -26,5 +26,7 @@ export const PERMISSIONS = {
   OFFERS_READ: 'offers.read',
   SHIPMENTS_READ: 'shipments.read',
   RETURNS_READ: 'returns.read',
-  MFA_MANAGE: 'mfa.manage',
+  ROLES_READ: 'roles.read',
+  ROLES_MANAGE: 'roles.manage',
+  TENANT_ADMIN: 'tenant.admin',
 };

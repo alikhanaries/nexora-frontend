@@ -46,3 +46,11 @@ export function useWebhookDeliveries(webhookId, filters = {}) {
     staleTime: 20_000,
   });
 }
+
+export function useWebhookDelivery(webhookId, deliveryId) {
+  return useQuery({
+    queryKey: webhookQueryKeys.deliveryDetail(webhookId, deliveryId),
+    queryFn: () => webhooksService.getWebhookDelivery(webhookId, deliveryId),
+    enabled: Boolean(webhookId && deliveryId),
+  });
+}

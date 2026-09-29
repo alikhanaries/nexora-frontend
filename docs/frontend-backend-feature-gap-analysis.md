@@ -12,7 +12,7 @@
 | `/api/v1` routes in inventory (excl. health/docs/worker) | 99 |
 | `/api/v2` + `/api/v2/ce/*` compatibility routes | 48 |
 | Frontend gaps **closed in this parity branch** | 6 |
-| Frontend gaps **remaining (blocked or out of scope)** | 12 |
+| Frontend gaps **remaining (blocked or out of scope)** | 1 scope (v2 M2M) |
 | Capabilities **intentionally excluded** (non-UI / M2M) | 8 |
 
 ---
@@ -37,10 +37,10 @@
 | Audit | GET list (cursor/offset filters) | audit.read | Page existed; **route → placeholder** | **Fixed** (AuditRoutes mounted, nav enabled) |
 | Settings / MFA | totp start/verify/activate, verify, recovery | mfa.manage (enrollment) | Phase 19 code; **not on abubakar** | **Implemented** (Settings route + user menu) |
 | Permissions catalog | GET /permissions | (authorized) | Used by API key form | **Complete** |
-| Roles | GET/POST /roles | roles.read / manage | None | **Blocked** — no membership admin UX without user list + membershipId |
-| Membership roles | GET/POST/DELETE memberships/:id/roles | roles.manage | None | **Blocked** — `GET /auth/me` has no `membershipId` |
-| Tenants | create, get, suspend, close, reactivate | tenant admin / public mix | None | **Excluded** — platform onboarding, not tenant app shell |
-| Foundation | ping, echo | bearer | None | **Excluded** — ops/diagnostics |
+| Roles | GET/POST /roles | roles.read / manage | None | **Complete** — `/roles`, create form |
+| Membership roles | GET/POST/DELETE memberships/:id/roles | roles.manage | None | **Complete** — panel on Roles page (manual membership UUID until `/auth/me` exposes id) |
+| Tenants | create, get, suspend, close, reactivate | tenant admin / public mix | None | **Complete** — `/register-tenant`, Settings organization panel |
+| Foundation | ping, echo | bearer | None | **Complete** — Settings API diagnostics panel |
 | Inbound marketplace webhooks | POST ingress token | token | None | **Excluded** — marketplace → Nexora ingress, not user UI |
 | Overview / dashboard | *none* | — | Placeholder `/` | **Implemented** — module hub (no fake KPIs) |
 
@@ -61,7 +61,7 @@
 
 | Gap | Reason | Dependency |
 | --- | ------ | ---------- |
-| Role & permission administration UI | No pages for `/roles`, membership role assignment | `GET /auth/me` should expose `membershipId`; optional `GET /users` for admin picker |
+| Membership UUID discovery UX | Role assignment requires typing membership UUID | `GET /auth/me` should expose `membershipId`; optional `GET /users` for admin picker |
 | Full nav/route permission enforcement UX | `isRbacAvailable === false` | `/auth/me` should expose `permissions` and/or `roles` |
 | Tenant lifecycle UI | Backend supports tenant admin APIs | Product decision + `tenant.admin` UX scope |
 | Sync / Queue / Integrations hub | No `/api/v1` counterparts | Future backend modules |

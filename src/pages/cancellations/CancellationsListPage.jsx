@@ -1,5 +1,9 @@
+import Button from '@mui/material/Button';
 import { useCallback, useMemo, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { Link as RouterLink, useSearchParams } from 'react-router-dom';
+import { PERMISSIONS } from '../../constants/permissions.js';
+import { usePermissions } from '../../hooks/permissions/usePermissions.js';
+import { canShowPermissionAction } from '../../utils/permissionAction.js';
 import { CancellationFilters } from '../../components/cancellations/CancellationFilters.jsx';
 import { CancellationsTable } from '../../components/cancellations/CancellationsTable.jsx';
 import { PageHeader } from '../../components/common/PageHeader.jsx';
@@ -26,6 +30,8 @@ function parseOrderId(raw) {
 }
 
 export function CancellationsListPage() {
+  const permission = usePermissions();
+  const canCreate = canShowPermissionAction(permission, PERMISSIONS.CANCELLATIONS_CREATE);
   const [searchParams, setSearchParams] = useSearchParams();
   const status = parseStatus(searchParams.get('status') ?? '');
   const orderIdRaw = searchParams.get('orderId') ?? '';
@@ -96,7 +102,14 @@ export function CancellationsListPage() {
     <>
       <PageHeader
         title="Cancellations"
-        description="Order cancellation records for your tenant. Create cancellations from an order detail page."
+        description="Order cancellation records for your tenant. Create from an order detail page or POST /cancellations directly."
+        action={
+          canCreate ? (
+            <Button component={RouterLink} to="/cancellations/new" variant="contained" size="small">
+              Request cancellation
+            </Button>
+          ) : null
+        }
       />
       <CancellationFilters
         status={status}
