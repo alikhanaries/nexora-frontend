@@ -8,7 +8,10 @@ import { useMemo, useState } from 'react';
 import { StatusBadge } from '../common/StatusBadge.jsx';
 import { EmptyState } from '../ui/EmptyState.jsx';
 import { ErrorState } from '../ui/ErrorState.jsx';
+import { PERMISSIONS } from '../../constants/permissions.js';
 import { MARKETPLACE_CONNECTION_TEST_OUTCOME } from '../../constants/marketplaceConnectionCatalog.js';
+import { usePermissions } from '../../hooks/permissions/usePermissions.js';
+import { canShowPermissionAction } from '../../utils/permissionAction.js';
 import { getMarketplaceConnectionTestOutcomePresentation } from '../../constants/marketplaceConnectionStatusPresentation.js';
 import {
   useDeleteMarketplaceConnection,
@@ -39,6 +42,8 @@ export function MarketplaceConnectionPanel({ channelId, channelName, marketplace
   const deleteMutation = useDeleteMarketplaceConnection(channelId);
   const testMutation = useTestMarketplaceConnection(channelId);
   const { notify } = useNotification();
+  const permission = usePermissions();
+  const canManageConnection = canShowPermissionAction(permission, PERMISSIONS.CHANNELS_UPDATE);
   const [dialogMode, setDialogMode] = useState(/** @type {'create' | 'edit' | null} */ (null));
 
   const isMutating =
@@ -130,23 +135,25 @@ export function MarketplaceConnectionPanel({ channelId, channelName, marketplace
             Credentials are encrypted by the backend and are never shown after save.
           </Typography>
         </Box>
-        {hasConnection ? (
-          <Box className="flex flex-wrap gap-2">
-            <Button variant="outlined" size="small" onClick={openEdit} disabled={isMutating}>
-              Configure
+        {canManageConnection ? (
+          hasConnection ? (
+            <Box className="flex flex-wrap gap-2">
+              <Button variant="outlined" size="small" onClick={openEdit} disabled={isMutating}>
+                Configure
+              </Button>
+              <Button variant="outlined" size="small" onClick={runTest} disabled={isMutating || testMutation.isPending}>
+                {testMutation.isPending ? 'Testing…' : 'Test connection'}
+              </Button>
+              <Button variant="outlined" color="error" size="small" onClick={runDisconnect} disabled={isMutating}>
+                Disconnect
+              </Button>
+            </Box>
+          ) : (
+            <Button variant="contained" size="small" onClick={openCreate} disabled={isMutating}>
+              Connect marketplace
             </Button>
-            <Button variant="outlined" size="small" onClick={runTest} disabled={isMutating || testMutation.isPending}>
-              {testMutation.isPending ? 'Testing…' : 'Test connection'}
-            </Button>
-            <Button variant="outlined" color="error" size="small" onClick={runDisconnect} disabled={isMutating}>
-              Disconnect
-            </Button>
-          </Box>
-        ) : (
-          <Button variant="contained" size="small" onClick={openCreate} disabled={isMutating}>
-            Connect marketplace
-          </Button>
-        )}
+          )
+        ) : null}
       </Box>
 
       {!hasConnection ? (
