@@ -4,4 +4,6 @@ export const channelQueryKeys = {
   list: (filters) => [...channelQueryKeys.lists(), filters],
   details: () => [...channelQueryKeys.all, 'detail'],
   detail: (channelId) => [...channelQueryKeys.details(), channelId],
+  marketplaceConnections: () => [...channelQueryKeys.all, 'marketplace-connection'],
+  marketplaceConnection: (channelId) => [...channelQueryKeys.marketplaceConnections(), channelId],
 };
