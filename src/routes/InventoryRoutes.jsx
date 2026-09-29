@@ -5,6 +5,11 @@ import { LoadingScreen } from '../components/ui/LoadingScreen.jsx';
 const InventoryPage = lazy(() =>
   import('../pages/inventory/InventoryPage.jsx').then((m) => ({ default: m.InventoryPage })),
 );
+const StockLocationDetailPage = lazy(() =>
+  import('../pages/inventory/StockLocationDetailPage.jsx').then((m) => ({
+    default: m.StockLocationDetailPage,
+  })),
+);
 
 export function InventoryRoutes() {
   return (
@@ -14,6 +19,14 @@ export function InventoryRoutes() {
         element={
           <Suspense fallback={<LoadingScreen message="Loading inventory…" />}>
             <InventoryPage />
+          </Suspense>
+        }
+      />
+      <Route
+        path="locations/:stockLocationId"
+        element={
+          <Suspense fallback={<LoadingScreen message="Loading location…" />}>
+            <StockLocationDetailPage />
           </Suspense>
         }
       />

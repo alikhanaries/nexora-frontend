@@ -16,6 +16,9 @@ export const PERMISSIONS = {
   ORDERS_CANCEL: 'orders.cancel',
   CHANNELS_READ: 'channels.read',
   CHANNELS_UPDATE: 'channels.update',
+  MARKETPLACES_READ: 'marketplaces.read',
+  MARKETPLACES_MANAGE: 'marketplaces.manage',
+  MFA_MANAGE: 'mfa.manage',
   PRODUCTS_READ: 'products.read',
   PRODUCTS_UPDATE: 'products.update',
   INVENTORY_READ: 'inventory.read',
@@ -23,5 +26,7 @@ export const PERMISSIONS = {
   OFFERS_READ: 'offers.read',
   SHIPMENTS_READ: 'shipments.read',
   RETURNS_READ: 'returns.read',
-  MFA_MANAGE: 'mfa.manage',
+  ROLES_READ: 'roles.read',
+  ROLES_MANAGE: 'roles.manage',
+  TENANT_ADMIN: 'tenant.admin',
 };

@@ -1,4 +1,6 @@
 import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
+import KeyOutlinedIcon from '@mui/icons-material/KeyOutlined';
+import WebhookOutlinedIcon from '@mui/icons-material/WebhookOutlined';
 import BlockOutlinedIcon from '@mui/icons-material/BlockOutlined';
 import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
 import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
@@ -31,6 +33,8 @@ export const navigationIcons = {
   integrations: HubOutlinedIcon,
   sync: SyncOutlinedIcon,
   queue: QueueOutlinedIcon,
+  'api-keys': KeyOutlinedIcon,
+  webhooks: WebhookOutlinedIcon,
   audit: AssessmentOutlinedIcon,
   settings: SettingsOutlinedIcon,
 };

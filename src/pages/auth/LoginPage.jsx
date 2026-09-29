@@ -1,5 +1,6 @@
+import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { Link as RouterLink, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { LoginForm } from '../../components/forms/LoginForm.jsx';
 import { LoadingScreen } from '../../components/ui/LoadingScreen.jsx';
 import { useAuth } from '../../hooks/useAuth.js';
@@ -33,6 +34,9 @@ export function LoginPage() {
         Marketplace integration console for your tenant.
       </Typography>
       <LoginForm onSubmit={handleLogin} />
+      <Button component={RouterLink} to="/register-tenant" size="small" sx={{ mt: 2 }}>
+        Create a new tenant
+      </Button>
     </>
   );
 }
