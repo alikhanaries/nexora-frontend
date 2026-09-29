@@ -313,6 +313,7 @@ export function OrderDetailPage() {
       </Paper>
 
       <OrderShipmentsPanel orderId={order.id} />
+      <OrderReturnsPanel orderId={order.id} />
 
       <CancelOrderDialog
         open={cancelDialogOpen}

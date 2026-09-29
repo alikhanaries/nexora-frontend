@@ -6,6 +6,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth.js';
 
 function getInitials(email) {
@@ -60,6 +61,9 @@ export function UserMenu() {
               Tenant ID: {user.tenantId}
             </Typography>
           ) : null}
+        </MenuItem>
+        <MenuItem component={RouterLink} to="/settings" onClick={() => setAnchorEl(null)}>
+          Settings
         </MenuItem>
         <MenuItem onClick={handleLogout}>
           <ListItemIcon>
