@@ -8,6 +8,7 @@ import { GuestRoute } from './GuestRoute.jsx';
 import { InventoryRoutes } from './InventoryRoutes.jsx';
 import { OffersRoutes } from './OffersRoutes.jsx';
 import { OrdersRoutes } from './OrdersRoutes.jsx';
+import { ReturnsRoutes } from './ReturnsRoutes.jsx';
 import { ShipmentsRoutes } from './ShipmentsRoutes.jsx';
 import { CancellationsRoutes } from './CancellationsRoutes.jsx';
 import { ChannelsRoutes } from './ChannelsRoutes.jsx';

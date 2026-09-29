@@ -28,6 +28,7 @@ import { formatChannelLabel } from '../../utils/channelLabel.js';
 import { confirmAction } from '../../utils/confirmDialog.js';
 import { formatDate } from '../../utils/formatDate.js';
 import { formatMoneyMinor } from '../../utils/money.js';
+import { OrderReturnsPanel } from '../../components/returns/OrderReturnsPanel.jsx';
 import { OrderShipmentsPanel } from '../../components/shipments/OrderShipmentsPanel.jsx';
 import { PERMISSIONS } from '../../constants/permissions.js';
 import { usePermissions } from '../../hooks/permissions/usePermissions.js';
