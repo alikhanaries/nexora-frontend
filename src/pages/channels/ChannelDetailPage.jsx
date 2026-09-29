@@ -18,7 +18,8 @@ import { getUserFacingMessage } from '../../services/api/apiError.js';
 import { formatConfigurationReferenceDetail } from '../../utils/channelConfigDisplay.js';
 import { confirmAction } from '../../utils/confirmDialog.js';
 import { formatDate } from '../../utils/formatDate.js';
-import { formatMarketplaceLabel } from '../../utils/marketplaceLabel.js';
+import { MarketplaceConnectionPanel } from '../../components/channels/MarketplaceConnectionPanel.jsx';
+import { formatMarketplaceLabel, resolveMarketplaceKey } from '../../utils/marketplaceLabel.js';
 
 export function ChannelDetailPage() {
   const { channelId } = useParams();
@@ -59,6 +60,9 @@ export function ChannelDetailPage() {
   }
 
   if (!channel) return null;
+
+  const marketplaceLabel = formatMarketplaceLabel(marketplaces, channel.marketplaceId);
+  const marketplaceKey = resolveMarketplaceKey(marketplaces, channel.marketplaceId);
 
   const statusActions = [];
   if (channel.status !== CHANNEL_STATUS.ACTIVE) {
@@ -148,7 +152,7 @@ export function ChannelDetailPage() {
             <Typography variant="subtitle2" color="text.secondary">
               Marketplace
             </Typography>
-            <Typography variant="body2">{formatMarketplaceLabel(marketplaces, channel.marketplaceId)}</Typography>
+            <Typography variant="body2">{marketplaceLabel}</Typography>
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <Typography variant="subtitle2" color="text.secondary">
@@ -184,15 +188,22 @@ export function ChannelDetailPage() {
           </Grid>
         </Grid>
       </Paper>
-      <Paper className="p-4">
+      <Paper className="mb-4 p-4">
         <Typography variant="subtitle2" gutterBottom>
-          Configuration
+          Configuration reference
         </Typography>
         <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-          Integration settings are referenced externally. Credentials are never shown in the admin UI.
+          External integration reference for this channel (not marketplace credentials).
         </Typography>
         <Typography variant="body2">{formatConfigurationReferenceDetail(channel.configurationReference)}</Typography>
       </Paper>
+
+      <MarketplaceConnectionPanel
+        channelId={channel.id}
+        channelName={channel.name}
+        marketplaceKey={marketplaceKey}
+        marketplaceLabel={marketplaceLabel}
+      />
     </>
   );
 }

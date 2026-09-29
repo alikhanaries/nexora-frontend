@@ -11,11 +11,14 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
-import { Link as RouterLink, useParams } from 'react-router-dom';
+import { useState } from 'react';
+import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
+import { CancelOrderDialog } from '../../components/cancellations/CancelOrderDialog.jsx';
 import { PageHeader } from '../../components/common/PageHeader.jsx';
 import { StatusBadge } from '../../components/common/StatusBadge.jsx';
 import { ORDER_STATUS } from '../../constants/orderCatalog.js';
 import { useChannels } from '../../hooks/channels/useChannelQueries.js';
+import { useCancelOrder } from '../../hooks/cancellations/useCancellationMutations.js';
 import { useConfirmOrder } from '../../hooks/orders/useOrderMutations.js';
 import { useOrder } from '../../hooks/orders/useOrderQueries.js';
 import { useNotification } from '../../hooks/useNotification.js';
@@ -26,6 +29,7 @@ import { confirmAction } from '../../utils/confirmDialog.js';
 import { formatDate } from '../../utils/formatDate.js';
 import { formatMoneyMinor } from '../../utils/money.js';
 import { OrderShipmentsPanel } from '../../components/shipments/OrderShipmentsPanel.jsx';
+import { isOrderCancellableStatus, orderHasCancellableLines } from '../../utils/orderCancellability.js';
 
 function formatAddress(address) {
   if (!address || typeof address !== 'object') return '—';
@@ -37,10 +41,13 @@ function formatAddress(address) {
 
 export function OrderDetailPage() {
   const { orderId } = useParams();
+  const navigate = useNavigate();
   const { data: order, isLoading, isError, error, refetch } = useOrder(orderId);
   const { data: channels } = useChannels();
   const confirmMutation = useConfirmOrder();
+  const cancelMutation = useCancelOrder(orderId);
   const { notify } = useNotification();
+  const [cancelDialogOpen, setCancelDialogOpen] = useState(false);
 
   const runConfirm = async () => {
     if (!order) return;
@@ -81,6 +88,29 @@ export function OrderDetailPage() {
 
   const currency = order.currency;
   const canConfirm = order.status === ORDER_STATUS.NEW;
+  const canCancel =
+    isOrderCancellableStatus(order.status) && orderHasCancellableLines(order.lines);
+
+  const runCancelOrder = async (body) => {
+    const result = await confirmAction({
+      title: 'Cancel this order?',
+      text: `You are about to cancel order ${order.orderNumber}. Remaining unshipped quantity will be cancelled and inventory may be released.`,
+      confirmButtonText: 'Cancel order',
+      confirmButtonColor: '#ed6c02',
+    });
+    if (!result.isConfirmed) return;
+    try {
+      const cancellation = await cancelMutation.mutateAsync(body);
+      notify('Order cancellation recorded.', 'success');
+      setCancelDialogOpen(false);
+      if (cancellation?.id) {
+        navigate(`/cancellations/${cancellation.id}`);
+      }
+    } catch (mutationError) {
+      notify(getUserFacingMessage(mutationError), 'error');
+      throw mutationError;
+    }
+  };
 
   return (
     <>
@@ -91,10 +121,25 @@ export function OrderDetailPage() {
         title={order.orderNumber}
         description={`Order ID: ${order.id}`}
         action={
-          canConfirm ? (
-            <Button variant="contained" size="small" onClick={runConfirm} disabled={confirmMutation.isPending}>
-              Confirm order
-            </Button>
+          canConfirm || canCancel ? (
+            <Box className="flex flex-wrap gap-2">
+              {canConfirm ? (
+                <Button variant="contained" size="small" onClick={runConfirm} disabled={confirmMutation.isPending}>
+                  Confirm order
+                </Button>
+              ) : null}
+              {canCancel ? (
+                <Button
+                  variant="outlined"
+                  color="warning"
+                  size="small"
+                  onClick={() => setCancelDialogOpen(true)}
+                  disabled={cancelMutation.isPending}
+                >
+                  Cancel order
+                </Button>
+              ) : null}
+            </Box>
           ) : null
         }
       />
@@ -173,6 +218,8 @@ export function OrderDetailPage() {
               <TableCell>Offer</TableCell>
               <TableCell>Location</TableCell>
               <TableCell align="right">Qty</TableCell>
+              <TableCell align="right">Shipped</TableCell>
+              <TableCell align="right">Cancelled</TableCell>
               <TableCell align="right">Unit</TableCell>
               <TableCell align="right">Line total</TableCell>
             </TableRow>
@@ -207,6 +254,8 @@ export function OrderDetailPage() {
                 </TableCell>
                 <TableCell sx={{ fontFamily: 'monospace', fontSize: 12 }}>{line.stockLocationId}</TableCell>
                 <TableCell align="right">{line.quantity}</TableCell>
+                <TableCell align="right">{line.shippedQuantity}</TableCell>
+                <TableCell align="right">{line.cancelledQuantity}</TableCell>
                 <TableCell align="right">{formatMoneyMinor(line.unitPriceMinor, line.currency || currency)}</TableCell>
                 <TableCell align="right">{formatMoneyMinor(line.lineTotalMinor, line.currency || currency)}</TableCell>
               </TableRow>
@@ -256,6 +305,14 @@ export function OrderDetailPage() {
       </Paper>
 
       <OrderShipmentsPanel orderId={order.id} />
+
+      <CancelOrderDialog
+        open={cancelDialogOpen}
+        order={order}
+        isSubmitting={cancelMutation.isPending}
+        onClose={() => setCancelDialogOpen(false)}
+        onSubmit={runCancelOrder}
+      />
     </>
   );
 }
