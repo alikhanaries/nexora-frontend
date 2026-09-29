@@ -32,6 +32,7 @@ export const navigationConfig = [
   },
   { id: 'queue', label: 'Queue', path: '/queue', section: 'Integrations', futureModule: true },
   { id: 'api-keys', label: 'API keys', path: '/api-keys', section: 'Administration', futureModule: false },
+  { id: 'webhooks', label: 'Webhooks', path: '/webhooks', section: 'Administration', futureModule: false },
   { id: 'audit', label: 'Audit logs', path: '/audit', section: 'Administration', futureModule: true },
   { id: 'settings', label: 'Settings', path: '/settings', section: 'Administration', futureModule: true },
 ];

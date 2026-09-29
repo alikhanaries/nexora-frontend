@@ -8,9 +8,11 @@ import { getProductStatusPresentation } from '../../constants/productStatusPrese
 import { getStockLocationStatusPresentation } from '../../constants/stockLocationStatusPresentation.js';
 import { getChannelStatusPresentation } from '../../constants/channelStatusPresentation.js';
 import { getApiKeyStatusPresentation } from '../../constants/apiKeyStatusPresentation.js';
+import { getWebhookSubscriptionStatusPresentation } from '../../constants/webhookStatusPresentation.js';
+import { getWebhookDeliveryStatusPresentation } from '../../constants/webhookDeliveryStatusPresentation.js';
 
 /**
- * @param {{ status: string, domain?: 'product' | 'stockLocation' | 'pricing' | 'offer' | 'listing' | 'order' | 'shipment' | 'channel' | 'apiKey' }} props
+ * @param {{ status: string, domain?: 'product' | 'stockLocation' | 'pricing' | 'offer' | 'listing' | 'order' | 'shipment' | 'channel' | 'apiKey' | 'webhook' | 'webhookDelivery' }} props
  */
 export function StatusBadge({ status, domain = 'product' }) {
   const presentation =
@@ -30,7 +32,11 @@ export function StatusBadge({ status, domain = 'product' }) {
                   ? getChannelStatusPresentation(status)
                   : domain === 'apiKey'
                     ? getApiKeyStatusPresentation(status)
-                    : domain === 'product'
+                    : domain === 'webhook'
+                      ? getWebhookSubscriptionStatusPresentation(status)
+                      : domain === 'webhookDelivery'
+                        ? getWebhookDeliveryStatusPresentation(status)
+                        : domain === 'product'
                     ? getProductStatusPresentation(status)
                     : { label: status, muiColor: 'default' };
   return (

@@ -11,6 +11,7 @@ import { OrdersRoutes } from './OrdersRoutes.jsx';
 import { ShipmentsRoutes } from './ShipmentsRoutes.jsx';
 import { ChannelsRoutes } from './ChannelsRoutes.jsx';
 import { ApiKeysRoutes } from './ApiKeysRoutes.jsx';
+import { WebhooksRoutes } from './WebhooksRoutes.jsx';
 import { PricingRoutes } from './PricingRoutes.jsx';
 import { ProductsRoutes } from './ProductsRoutes.jsx';
 import { ProtectedRoute } from './ProtectedRoute.jsx';
@@ -34,6 +35,7 @@ export function AppRoutes() {
           <Route path="shipments/*" element={<ShipmentsRoutes />} />
           <Route path="channels/*" element={<ChannelsRoutes />} />
           <Route path="api-keys/*" element={<ApiKeysRoutes />} />
+          <Route path="webhooks/*" element={<WebhooksRoutes />} />
           {navigationConfig
             .filter(
               (item) =>
@@ -46,6 +48,7 @@ export function AppRoutes() {
                   'shipments',
                   'channels',
                   'api-keys',
+                  'webhooks',
                 ].includes(item.id),
             )
             .map((item) =>
