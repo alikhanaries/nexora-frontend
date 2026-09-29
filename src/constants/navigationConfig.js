@@ -66,7 +66,14 @@ export const navigationConfig = [
     permissionKey: PERMISSIONS.CANCELLATIONS_READ,
     futureModule: false,
   },
-  { id: 'returns', label: 'Returns', path: '/returns', section: 'Operations', futureModule: true },
+  {
+    id: 'returns',
+    label: 'Returns',
+    path: '/returns',
+    section: 'Operations',
+    permissionKey: PERMISSIONS.RETURNS_READ,
+    futureModule: false,
+  },
   {
     id: 'channels',
     label: 'Channels',

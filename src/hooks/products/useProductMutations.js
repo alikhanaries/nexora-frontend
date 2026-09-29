@@ -44,3 +44,26 @@ export function useArchiveProduct() {
     },
   });
 }
+
+/**
+ * @param {string | undefined} productId
+ */
+export function useUpsertProductContent(productId) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ locale, body }) => productsService.upsertProductContent(productId, locale, body),
+    onSuccess: (content) => {
+      if (!productId) return;
+      queryClient.setQueryData(productQueryKeys.content(productId), (previous) => {
+        const list = Array.isArray(previous) ? previous : [];
+        const index = list.findIndex((entry) => entry.locale === content.locale);
+        if (index === -1) {
+          return [...list, content].sort((a, b) => a.locale.localeCompare(b.locale));
+        }
+        const next = [...list];
+        next[index] = content;
+        return next;
+      });
+    },
+  });
+}

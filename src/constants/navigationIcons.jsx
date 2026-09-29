@@ -7,8 +7,7 @@ import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
 import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
 import PlaylistAddCheckOutlinedIcon from '@mui/icons-material/PlaylistAddCheckOutlined';
-import VpnKeyOutlinedIcon from '@mui/icons-material/VpnKeyOutlined';
-import WebhookOutlinedIcon from '@mui/icons-material/WebhookOutlined';
+import PublicOutlinedIcon from '@mui/icons-material/PublicOutlined';
 import QueueOutlinedIcon from '@mui/icons-material/QueueOutlined';
 import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
@@ -27,6 +26,7 @@ export const navigationIcons = {
   shipments: LocalShippingOutlinedIcon,
   cancellations: BlockOutlinedIcon,
   returns: UndoOutlinedIcon,
+  marketplaces: PublicOutlinedIcon,
   channels: StorefrontOutlinedIcon,
   integrations: HubOutlinedIcon,
   sync: SyncOutlinedIcon,

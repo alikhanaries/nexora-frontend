@@ -1,7 +1,6 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid2';
 import Paper from '@mui/material/Paper';
 import Skeleton from '@mui/material/Skeleton';
@@ -11,7 +10,8 @@ import { PageHeader } from '../../components/common/PageHeader.jsx';
 import { StatusBadge } from '../../components/common/StatusBadge.jsx';
 import { PRODUCT_STATUS } from '../../constants/productCatalog.js';
 import { useArchiveProduct, useDeactivateProduct } from '../../hooks/products/useProductMutations.js';
-import { useProduct, useProductContent } from '../../hooks/products/useProduct.js';
+import { ProductContentPanel } from '../../components/products/ProductContentPanel.jsx';
+import { useProduct } from '../../hooks/products/useProduct.js';
 import { useNotification } from '../../hooks/useNotification.js';
 import { ErrorState } from '../../components/ui/ErrorState.jsx';
 import { formatDate } from '../../utils/formatDate.js';
@@ -20,7 +20,6 @@ import { confirmAction } from '../../utils/confirmDialog.js';
 export function ProductDetailPage() {
   const { productId } = useParams();
   const { data: product, isLoading, isError, error, refetch } = useProduct(productId);
-  const { data: content, isLoading: contentLoading } = useProductContent(productId);
   const deactivateMutation = useDeactivateProduct();
   const archiveMutation = useArchiveProduct();
   const { notify } = useNotification();
@@ -134,30 +133,7 @@ export function ProductDetailPage() {
         </Grid>
       </Paper>
       <Box sx={{ mt: 3 }}>
-        <Typography variant="h3" component="h2" gutterBottom>
-          Localized content
-        </Typography>
-        <Typography variant="body2" color="text.secondary" paragraph>
-          Read-only in this phase. Content editing uses separate API endpoints for a future iteration.
-        </Typography>
-        <Paper className="p-4">
-          {contentLoading ? (
-            <Skeleton variant="rounded" height={120} />
-          ) : content && content.length > 0 ? (
-            content.map((entry) => (
-              <Box key={entry.id} sx={{ mb: 2 }}>
-                <Typography variant="subtitle2">{entry.locale}</Typography>
-                <Typography variant="body2">Title: {entry.title ?? '—'}</Typography>
-                <Typography variant="body2">Brand: {entry.brand ?? '—'}</Typography>
-                <Divider sx={{ mt: 1 }} />
-              </Box>
-            ))
-          ) : (
-            <Typography variant="body2" color="text.secondary">
-              No localized content entries yet.
-            </Typography>
-          )}
-        </Paper>
+        <ProductContentPanel productId={product.id} />
       </Box>
     </>
   );
