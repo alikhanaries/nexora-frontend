@@ -2,9 +2,11 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../contexts/authContext.js';
+import { authQueryKeys } from '../constants/authQueryKeys.js';
 import { authService } from '../services/auth/authService.js';
 import { getRefreshToken, hasStoredSession } from '../services/auth/authSession.js';
 import { setSessionExpiredHandler } from '../services/auth/sessionExpired.js';
+import { normalizeAuthPrincipal } from '../utils/normalizeAuthPrincipal.js';
 
 export function AuthProvider({ children }) {
   const navigate = useNavigate();
@@ -15,10 +17,32 @@ export function AuthProvider({ children }) {
     ),
   );
   const [user, setUser] = useState(/** @type {import('../services/auth/authService.js').MePayload | null} */ (null));
+  const [permissions, setPermissions] = useState(/** @type {string[]} */ ([]));
+  const [roles, setRoles] = useState(/** @type {string[]} */ ([]));
+  const [membershipId, setMembershipId] = useState(/** @type {string | null} */ (null));
+  const [isRbacAvailable, setIsRbacAvailable] = useState(false);
+
+  const applyPrincipal = useCallback(
+    (me) => {
+      const principal = normalizeAuthPrincipal(me);
+      setUser(principal.user);
+      setPermissions(principal.permissions);
+      setRoles(principal.roles);
+      setMembershipId(principal.membershipId);
+      setIsRbacAvailable(principal.isRbacAvailable);
+      queryClient.setQueryData(authQueryKeys.me(), principal);
+    },
+    [queryClient],
+  );
 
   const resetAuthState = useCallback(() => {
     setUser(null);
+    setPermissions([]);
+    setRoles([]);
+    setMembershipId(null);
+    setIsRbacAvailable(false);
     setStatus('anonymous');
+    queryClient.removeQueries({ queryKey: authQueryKeys.all });
     queryClient.clear();
   }, [queryClient]);
 
@@ -31,13 +55,13 @@ export function AuthProvider({ children }) {
     setStatus('bootstrapping');
     try {
       const me = await authService.getCurrentUser();
-      setUser(me);
+      applyPrincipal(me);
       setStatus('authenticated');
     } catch {
       authService.clearLocalSession();
       resetAuthState();
     }
-  }, [resetAuthState]);
+  }, [applyPrincipal, resetAuthState]);
 
   useEffect(() => {
     bootstrapSession();
@@ -55,10 +79,10 @@ export function AuthProvider({ children }) {
     async (input) => {
       await authService.login(input);
       const me = await authService.getCurrentUser();
-      setUser(me);
+      applyPrincipal(me);
       setStatus('authenticated');
     },
-    [],
+    [applyPrincipal],
   );
 
   const logout = useCallback(async () => {
@@ -83,10 +107,14 @@ export function AuthProvider({ children }) {
       isLoading: status === 'bootstrapping',
       isAuthenticated: status === 'authenticated',
       user,
+      permissions,
+      roles,
+      membershipId,
+      isRbacAvailable,
       login,
       logout,
     }),
-    [status, user, login, logout],
+    [status, user, permissions, roles, membershipId, isRbacAvailable, login, logout],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
